@@ -7,13 +7,14 @@ import ProductsPage from './pages/ProductsPage'
 import AdminPage from './pages/AdminPage'
 import DeletedCustomersPage from './pages/DeletedCustomersPage'
 import AuthCallbackPage from './pages/AuthCallbackPage'
+import AppShell from './components/AppShell'
 import { useAuth } from './context/AuthContext'
 
 function ProtectedRoute({ children }) {
   const { currentUser, loading } = useAuth()
   if (loading) return <div>Loading...</div>
   if (!currentUser) return <Navigate to="/login" />
-  return children
+  return <AppShell>{children}</AppShell>
 }
 
 function App() {

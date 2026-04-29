@@ -12,20 +12,30 @@ export function AuthProvider({ children }) {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
         if (session) {
-          // Check if account is ACTIVE
-          const { data: userRow } = await supabase
-            .from('user')
-            .select('record_status, user_type, username')
-            .eq('userId', session.user.id)
-            .single()
+          try {
+            const { data: userRow, error: userError } = await supabase
+              .from('user')
+              .select('record_status, user_type, username')
+              .eq('userid', session.user.id)
+              .single()
 
-          if (userRow?.record_status !== 'ACTIVE') {
-            await supabase.auth.signOut()
-            setError('Your account is pending activation by a Sales Manager.')
-            setCurrentUser(null)
-          } else {
-            setCurrentUser({ ...session.user, ...userRow })
-            setError('')
+            if (userError || !userRow) {
+              setCurrentUser({ ...session.user })
+              setLoading(false)
+              return
+            }
+
+            if (userRow?.record_status !== 'ACTIVE') {
+              await supabase.auth.signOut()
+              setError('Your account is pending activation by a Sales Manager.')
+              setCurrentUser(null)
+            } else {
+              setCurrentUser({ ...session.user, ...userRow })
+              setError('')
+            }
+          } catch (err) {
+            console.error('Auth error:', err)
+            setCurrentUser({ ...session.user })
           }
         } else {
           setCurrentUser(null)
