@@ -1,2 +1,1 @@
-# hopecms
-Hope Inc. Customer Management System
+# HopeCMS - Hope Inc. Customer Management System
