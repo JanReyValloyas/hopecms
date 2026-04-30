@@ -9,18 +9,27 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
 
-  async function handleLogin(e) {
-    e.preventDefault()
-    setLoading(true)
-    setError('')
-    const { error } = await supabase.auth.signInWithPassword({ email, password })
-    if (error) {
-      setError(error.message)
-    } else {
-      navigate('/customers')
-    }
+async function handleLogin(e) {
+  e.preventDefault()
+  setLoading(true)
+  setError('')
+  
+  const { data, error } = await supabase.auth.signInWithPassword({ 
+    email, 
+    password 
+  })
+  
+  if (error) {
+    setError(error.message)
+    setLoading(false)
+  } else if (data?.user) {
+    // Navigate directly after successful login
+    window.location.href = '/customers'
+  } else {
+    setError('Login failed. Please try again.')
     setLoading(false)
   }
+}
 
   async function handleGoogle() {
     await supabase.auth.signInWithOAuth({
