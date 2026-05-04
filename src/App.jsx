@@ -9,6 +9,7 @@ import DeletedCustomersPage from './pages/DeletedCustomersPage'
 import AuthCallbackPage from './pages/AuthCallbackPage'
 import AppShell from './components/AppShell'
 import { useAuth } from './context/AuthContext'
+import CustomerDetailPage from './pages/CustomerDetailPage'
 
 function ProtectedRoute({ children }) {
   const { currentUser, loading } = useAuth()
@@ -30,6 +31,7 @@ function App() {
         <Route path="/admin" element={<ProtectedRoute><AdminPage /></ProtectedRoute>} />
         <Route path="/deleted-customers" element={<ProtectedRoute><DeletedCustomersPage /></ProtectedRoute>} />
         <Route path="*" element={<Navigate to="/login" />} />
+        <Route path="/customers/:custno" element={<ProtectedRoute><CustomerDetailPage /></ProtectedRoute>} />
       </Routes>
     </BrowserRouter>
   )

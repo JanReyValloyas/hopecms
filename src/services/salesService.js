@@ -5,8 +5,8 @@ export async function getSalesByCustomer(custNo) {
   const { data, error } = await supabase
     .from('sales')
     .select('*')
-    .eq('custNo', custNo)
-    .order('salesDate', { ascending: false })
+    .eq('custno', custNo)
+    .order('salesdate', { ascending: false })
   if (error) throw error
   return data
 }
@@ -19,7 +19,7 @@ export async function getSalesDetail(transNo) {
       *,
       product (description, unit)
     `)
-    .eq('transNo', transNo)
+    .eq('transno', transNo)
   if (error) throw error
   return data
 }

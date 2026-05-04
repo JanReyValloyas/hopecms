@@ -1,8 +1,10 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
+import { useRights } from '../context/UserRightsContext'
 
 export default function AppShell({ children }) {
   const { currentUser, signOut } = useAuth()
+  const { rights } = useRights()
   const navigate = useNavigate()
 
   async function handleLogout() {
@@ -19,6 +21,9 @@ export default function AppShell({ children }) {
           <span className="text-sm">
             {currentUser?.username || currentUser?.email}
           </span>
+          <span className="text-xs bg-blue-500 px-2 py-1 rounded">
+            {currentUser?.user_type || 'USER'}
+          </span>
           <button
             onClick={handleLogout}
             className="bg-white text-blue-700 px-3 py-1 rounded text-sm font-semibold hover:bg-gray-100"
@@ -30,27 +35,48 @@ export default function AppShell({ children }) {
 
       <div className="flex flex-1">
         {/* SIDEBAR */}
-        <aside className="w-48 bg-gray-800 text-white flex flex-col p-4 gap-2">
-          <Link to="/customers"
-            className="px-3 py-2 rounded hover:bg-gray-700 text-sm">
-            👥 Customers
-          </Link>
-          <Link to="/sales"
-            className="px-3 py-2 rounded hover:bg-gray-700 text-sm">
-            🧾 Sales
-          </Link>
-          <Link to="/products"
-            className="px-3 py-2 rounded hover:bg-gray-700 text-sm">
-            📦 Products
-          </Link>
-          <Link to="/admin"
-            className="px-3 py-2 rounded hover:bg-gray-700 text-sm">
-            ⚙️ Admin
-          </Link>
-          <Link to="/deleted-customers"
-            className="px-3 py-2 rounded hover:bg-gray-700 text-sm">
-            🗑️ Deleted Customers
-          </Link>
+        <aside className="w-48 bg-gray-800 text-white flex flex-col p-4 gap-1">
+
+          {/* Customers — always visible */}
+          {rights.CUST_VIEW === 1 && (
+            <Link to="/customers"
+              className="px-3 py-2 rounded hover:bg-gray-700 text-sm">
+              👥 Customers
+            </Link>
+          )}
+
+          {/* Sales — visible if SALES_VIEW = 1 */}
+          {rights.SALES_VIEW === 1 && (
+            <Link to="/sales"
+              className="px-3 py-2 rounded hover:bg-gray-700 text-sm">
+              🧾 Sales
+            </Link>
+          )}
+
+          {/* Products — visible if PROD_VIEW = 1 */}
+          {rights.PROD_VIEW === 1 && (
+            <Link to="/products"
+              className="px-3 py-2 rounded hover:bg-gray-700 text-sm">
+              📦 Products
+            </Link>
+          )}
+
+          {/* Admin — visible if ADM_USER = 1 */}
+          {rights.ADM_USER === 1 && (
+            <Link to="/admin"
+              className="px-3 py-2 rounded hover:bg-gray-700 text-sm">
+              ⚙️ Admin
+            </Link>
+          )}
+
+          {/* Deleted Customers — ADMIN/SUPERADMIN only */}
+          {(currentUser?.user_type === 'ADMIN' ||
+            currentUser?.user_type === 'SUPERADMIN') && (
+            <Link to="/deleted-customers"
+              className="px-3 py-2 rounded hover:bg-gray-700 text-sm">
+              🗑️ Deleted Customers
+            </Link>
+          )}
         </aside>
 
         {/* MAIN CONTENT */}

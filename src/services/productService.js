@@ -5,7 +5,7 @@ export async function getProducts() {
   const { data, error } = await supabase
     .from('product_current_price')
     .select('*')
-    .order('prodCode')
+    .order('prodcode')
   if (error) throw error
   return data
 }
@@ -15,8 +15,8 @@ export async function getPriceHistory(prodCode) {
   const { data, error } = await supabase
     .from('pricehist')
     .select('*')
-    .eq('prodCode', prodCode)
-    .order('effDate', { ascending: false })
+    .eq('prodcode', prodCode)
+    .order('effdate', { ascending: false })
   if (error) throw error
   return data
 }
@@ -25,9 +25,9 @@ export async function getPriceHistory(prodCode) {
 export async function getCurrentPrice(prodCode) {
   const { data, error } = await supabase
     .from('product_current_price')
-    .select('unitPrice')
-    .eq('prodCode', prodCode)
+    .select('unitprice')
+    .eq('prodcode', prodCode)
     .single()
   if (error) throw error
-  return data?.unitPrice
+  return data?.unitprice
 }
