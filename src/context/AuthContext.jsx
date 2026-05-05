@@ -6,40 +6,63 @@ const AuthContext = createContext()
 export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null)
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState('')
 
   useEffect(() => {
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
+      if (session) {
+        // Try to load user data with timeout
+        const userRow = await Promise.race([
+          loadUserRow(session.user.id),
+          new Promise(resolve => setTimeout(() => resolve(null), 3000))
+        ])
+
+        if (userRow) {
+          setCurrentUser({
+            ...session.user,
+            username: userRow.username,
+            user_type: userRow.user_type,
+            record_status: userRow.record_status
+          })
+        } else {
+          // Timeout — just use session user
+          setCurrentUser(session.user)
+        }
+      }
+      setLoading(false)
+    })
+
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
-        if (session) {
-          // Check if account is ACTIVE
-          const { data: userRow } = await supabase
-            .from('user')
-            .select('record_status, user_type, username')
-            .eq('userId', session.user.id)
-            .single()
-
-          if (userRow?.record_status !== 'ACTIVE') {
-            await supabase.auth.signOut()
-            setError('Your account is pending activation by a Sales Manager.')
-            setCurrentUser(null)
-          } else {
-            setCurrentUser({ ...session.user, ...userRow })
-            setError('')
-          }
-        } else {
+        if (event === 'SIGNED_OUT') {
           setCurrentUser(null)
+          setLoading(false)
         }
-        setLoading(false)
       }
     )
+
     return () => subscription.unsubscribe()
   }, [])
 
-  const signOut = () => supabase.auth.signOut()
+  async function loadUserRow(userId) {
+    try {
+      const { data } = await supabase
+        .from('user')
+        .select('userid, username, user_type, record_status')
+        .eq('userid', userId)
+        .single()
+      return data
+    } catch {
+      return null
+    }
+  }
+
+  const signOut = async () => {
+    await supabase.auth.signOut()
+    setCurrentUser(null)
+  }
 
   return (
-    <AuthContext.Provider value={{ currentUser, loading, error, signOut }}>
+    <AuthContext.Provider value={{ currentUser, loading, signOut }}>
       {children}
     </AuthContext.Provider>
   )
