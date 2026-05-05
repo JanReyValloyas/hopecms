@@ -8,28 +8,53 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    // Get initial session first
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
       if (session) {
-        setCurrentUser(session.user)
+        // Try to load user data with timeout
+        const userRow = await Promise.race([
+          loadUserRow(session.user.id),
+          new Promise(resolve => setTimeout(() => resolve(null), 3000))
+        ])
+
+        if (userRow) {
+          setCurrentUser({
+            ...session.user,
+            username: userRow.username,
+            user_type: userRow.user_type,
+            record_status: userRow.record_status
+          })
+        } else {
+          // Timeout — just use session user
+          setCurrentUser(session.user)
+        }
       }
       setLoading(false)
     })
 
-    // Then listen for changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, session) => {
-        if (session) {
-          setCurrentUser(session.user)
-        } else {
+      async (event, session) => {
+        if (event === 'SIGNED_OUT') {
           setCurrentUser(null)
+          setLoading(false)
         }
-        setLoading(false)
       }
     )
 
     return () => subscription.unsubscribe()
   }, [])
+
+  async function loadUserRow(userId) {
+    try {
+      const { data } = await supabase
+        .from('user')
+        .select('userid, username, user_type, record_status')
+        .eq('userid', userId)
+        .single()
+      return data
+    } catch {
+      return null
+    }
+  }
 
   const signOut = async () => {
     await supabase.auth.signOut()

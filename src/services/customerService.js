@@ -40,7 +40,7 @@ export async function updateCustomer(custno, updates) {
 
 // Soft delete customer
 export async function softDeleteCustomer(custno, userId) {
-  const stamp = `DEACTIVATED by ${userId} on ${new Date().toISOString()}`
+ const stamp = `DEL-${new Date().toISOString().slice(0,10)}`
   const { error } = await supabase
     .from('customer')
     .update({ record_status: 'INACTIVE', stamp })
@@ -50,7 +50,7 @@ export async function softDeleteCustomer(custno, userId) {
 
 // Recover customer
 export async function recoverCustomer(custno, userId) {
-  const stamp = `REACTIVATED by ${userId} on ${new Date().toISOString()}`
+const stamp = `RECV-${new Date().toISOString().slice(0,10)}`
   const { error } = await supabase
     .from('customer')
     .update({ record_status: 'ACTIVE', stamp })

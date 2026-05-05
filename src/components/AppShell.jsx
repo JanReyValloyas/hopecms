@@ -35,9 +35,12 @@ export default function AppShell({ children }) {
 
       <div className="flex flex-1">
         {/* SIDEBAR */}
-        <aside className="w-48 bg-gray-800 text-white flex flex-col p-4 gap-1">
+        <aside className="w-52 bg-gray-800 text-white flex flex-col p-4 gap-1 overflow-y-auto">
 
-          {/* Customers — always visible */}
+          {/* MAIN */}
+          <div className="text-xs text-gray-400 px-3 mb-1">MAIN</div>
+
+          {/* Customers */}
           {rights.CUST_VIEW === 1 && (
             <Link to="/customers"
               className="px-3 py-2 rounded hover:bg-gray-700 text-sm">
@@ -45,7 +48,7 @@ export default function AppShell({ children }) {
             </Link>
           )}
 
-          {/* Sales — visible if SALES_VIEW = 1 */}
+          {/* Sales */}
           {rights.SALES_VIEW === 1 && (
             <Link to="/sales"
               className="px-3 py-2 rounded hover:bg-gray-700 text-sm">
@@ -53,7 +56,7 @@ export default function AppShell({ children }) {
             </Link>
           )}
 
-          {/* Products — visible if PROD_VIEW = 1 */}
+          {/* Products */}
           {rights.PROD_VIEW === 1 && (
             <Link to="/products"
               className="px-3 py-2 rounded hover:bg-gray-700 text-sm">
@@ -61,22 +64,51 @@ export default function AppShell({ children }) {
             </Link>
           )}
 
-          {/* Admin — visible if ADM_USER = 1 */}
-          {rights.ADM_USER === 1 && (
-            <Link to="/admin"
+          {/* REPORTS */}
+          <div className="text-xs text-gray-400 px-3 mt-3 mb-1">REPORTS</div>
+
+          {rights.SALES_VIEW === 1 && (
+            <Link to="/reports/sales-summary"
               className="px-3 py-2 rounded hover:bg-gray-700 text-sm">
-              ⚙️ Admin
+              📊 Sales Summary
             </Link>
           )}
 
-          {/* Deleted Customers — ADMIN/SUPERADMIN only */}
+          {rights.SALES_VIEW === 1 && (
+            <Link to="/reports/top-customers"
+              className="px-3 py-2 rounded hover:bg-gray-700 text-sm">
+              🏆 Top Customers
+            </Link>
+          )}
+
+          {rights.PROD_VIEW === 1 && (
+            <Link to="/reports/product-revenue"
+              className="px-3 py-2 rounded hover:bg-gray-700 text-sm">
+              💰 Product Revenue
+            </Link>
+          )}
+
+          {/* ADMIN */}
+          {rights.ADM_USER === 1 && (
+            <>
+              <div className="text-xs text-gray-400 px-3 mt-3 mb-1">ADMIN</div>
+              <Link to="/admin"
+                className="px-3 py-2 rounded hover:bg-gray-700 text-sm">
+                ⚙️ User Management
+              </Link>
+            </>
+          )}
+
+          {/* Deleted Customers */}
           {(currentUser?.user_type === 'ADMIN' ||
-            currentUser?.user_type === 'SUPERADMIN') && (
+            currentUser?.user_type === 'SUPERADMIN' ||
+            rights.ADM_USER === 1) && (
             <Link to="/deleted-customers"
               className="px-3 py-2 rounded hover:bg-gray-700 text-sm">
               🗑️ Deleted Customers
             </Link>
           )}
+
         </aside>
 
         {/* MAIN CONTENT */}
