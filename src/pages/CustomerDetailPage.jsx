@@ -115,7 +115,7 @@ export default function CustomerDetailPage() {
                 {sales.map(s => (
                   <tr
                     key={s.transNo}
-                    onClick={() => handleTransClick(s.transNo)}
+                    onClick={() => handleTransClick(s.transno)}
                     className={`border-b cursor-pointer hover:bg-blue-50
                       ${selectedTrans === s.transNo ? 'bg-blue-100' : ''}`}
                   >

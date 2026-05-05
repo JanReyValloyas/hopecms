@@ -11,15 +11,27 @@ export async function getSalesByCustomer(custNo) {
   return data
 }
 
-// Get sales detail by transaction
+// Get sales detail by transaction - manual join
 export async function getSalesDetail(transNo) {
+  console.log('Getting details for transno:', transNo)
+  
   const { data, error } = await supabase
     .from('salesdetail')
-    .select(`
-      *,
-      product (description, unit)
-    `)
+    .select('transno, prodcode, quantity')
     .eq('transno', transNo)
+
   if (error) throw error
-  return data
+  if (!data || data.length === 0) return []
+
+  // Get product descriptions manually
+  const details = await Promise.all(data.map(async (sd) => {
+    const { data: prod } = await supabase
+      .from('product')
+      .select('description, unit')
+      .eq('prodcode', sd.prodcode)
+      .single()
+    return { ...sd, product: prod }
+  }))
+
+  return details
 }
