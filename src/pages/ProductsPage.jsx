@@ -6,9 +6,7 @@ export default function ProductsPage() {
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
 
-  useEffect(() => {
-    loadProducts()
-  }, [])
+  useEffect(() => { loadProducts() }, [])
 
   async function loadProducts() {
     try {
@@ -29,59 +27,60 @@ export default function ProductsPage() {
 
   return (
     <div>
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold text-gray-800">Product Catalogue</h1>
-        <span className="text-sm text-gray-500">Read-only</span>
+      <div className="flex justify-between items-center mb-6">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900">Product Catalogue</h1>
+          <p className="text-sm text-gray-500 mt-1">{filtered.length} of {products.length} products</p>
+        </div>
+        <span className="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-xs font-medium">Read-only</span>
       </div>
 
-      {/* Search */}
-      <input
-        type="text"
-        placeholder="Search by product name or code..."
-        className="w-full border rounded px-3 py-2 mb-4 text-sm"
-        value={search}
-        onChange={e => setSearch(e.target.value)}
-      />
+      <div className="relative mb-4">
+        <span className="absolute left-3 top-2.5 text-gray-400">🔍</span>
+        <input
+          type="text"
+          placeholder="Search by product name or code..."
+          className="w-full border border-gray-300 rounded-lg pl-9 pr-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+        />
+      </div>
 
-      {/* Table */}
       {loading ? (
-        <div className="text-center py-10 text-gray-500">
-          Loading products...
+        <div className="flex items-center justify-center py-20">
+          <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-600"></div>
         </div>
       ) : filtered.length === 0 ? (
-        <div className="text-center py-10 text-gray-500">
-          No products found
+        <div className="text-center py-20 bg-white rounded-xl shadow-sm">
+          <p className="text-4xl mb-3">📦</p>
+          <p className="text-gray-500">No products found</p>
         </div>
       ) : (
-        <div className="overflow-x-auto">
-          <table className="w-full bg-white rounded shadow text-sm">
-            <thead className="bg-blue-600 text-white">
-              <tr>
-                <th className="px-4 py-3 text-left">Product Code</th>
-                <th className="px-4 py-3 text-left">Description</th>
-                <th className="px-4 py-3 text-left">Unit</th>
-                <th className="px-4 py-3 text-left">Current Price</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filtered.map((p, i) => (
-                <tr
-                  key={p.prodcode}
-                  className={`border-b hover:bg-gray-50
-                    ${i % 2 === 0 ? 'bg-white' : 'bg-gray-50'}`}
-                >
-                  <td className="px-4 py-3 font-medium">{p.prodcode}</td>
-                  <td className="px-4 py-3">{p.description}</td>
-                  <td className="px-4 py-3">{p.unit}</td>
-                  <td className="px-4 py-3 font-semibold text-green-700">
-                    ₱{Number(p.unitprice).toLocaleString('en-PH', {
-                      minimumFractionDigits: 2
-                    })}
-                  </td>
+        <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="bg-gray-50 border-b border-gray-200">
+                  <th className="px-4 py-3 text-left font-semibold text-gray-600">Product Code</th>
+                  <th className="px-4 py-3 text-left font-semibold text-gray-600">Description</th>
+                  <th className="px-4 py-3 text-left font-semibold text-gray-600">Unit</th>
+                  <th className="px-4 py-3 text-right font-semibold text-gray-600">Current Price</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="divide-y divide-gray-100">
+                {filtered.map((p) => (
+                  <tr key={p.prodcode} className="hover:bg-blue-50 transition-colors">
+                    <td className="px-4 py-3 font-medium text-blue-600">{p.prodcode}</td>
+                    <td className="px-4 py-3 text-gray-900">{p.description}</td>
+                    <td className="px-4 py-3 text-gray-600">{p.unit}</td>
+                    <td className="px-4 py-3 text-right font-semibold text-green-700">
+                      ₱{Number(p.unitprice).toLocaleString('en-PH', { minimumFractionDigits: 2 })}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
     </div>

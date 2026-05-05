@@ -13,22 +13,14 @@ export default function CustomerDetailPage() {
   const [salesDetail, setSalesDetail] = useState([])
   const [detailLoading, setDetailLoading] = useState(false)
 
-  useEffect(() => {
-    loadData()
-  }, [custno])
+  useEffect(() => { loadData() }, [custno])
 
   async function loadData() {
     try {
       setLoading(true)
-      // Get customer
       const { data: custData } = await supabase
-        .from('customer')
-        .select('*')
-        .eq('custno', custno)
-        .single()
+        .from('customer').select('*').eq('custno', custno).single()
       setCustomer(custData)
-
-      // Get sales
       const salesData = await getSalesByCustomer(custno)
       setSales(salesData)
     } catch (err) {
@@ -38,11 +30,11 @@ export default function CustomerDetailPage() {
     }
   }
 
-  async function handleTransClick(transNo) {
-    setSelectedTrans(transNo)
+  async function handleTransClick(transno) {
+    setSelectedTrans(transno)
     setDetailLoading(true)
     try {
-      const data = await getSalesDetail(transNo)
+      const data = await getSalesDetail(transno)
       setSalesDetail(data)
     } catch (err) {
       console.error(err)
@@ -51,116 +43,144 @@ export default function CustomerDetailPage() {
     }
   }
 
-  if (loading) return <div className="text-center py-10">Loading...</div>
-  if (!customer) return <div className="text-center py-10">Customer not found</div>
+  if (loading) return (
+    <div className="flex items-center justify-center py-20">
+      <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-600"></div>
+    </div>
+  )
+  if (!customer) return (
+    <div className="text-center py-20">
+      <p className="text-gray-500">Customer not found</p>
+    </div>
+  )
 
   return (
     <div>
       {/* Back button */}
       <button
         onClick={() => navigate('/customers')}
-        className="mb-4 text-blue-600 hover:underline text-sm"
+        className="mb-4 text-blue-600 hover:underline text-sm flex items-center gap-1"
       >
         ← Back to Customers
       </button>
 
       {/* Customer Profile */}
-      <div className="bg-white rounded shadow p-6 mb-6">
-        <h1 className="text-2xl font-bold text-gray-800 mb-4">
-          {customer.custname}
-        </h1>
-        <div className="grid grid-cols-2 gap-4 text-sm">
-          <div>
-            <span className="font-medium text-gray-500">Customer No:</span>
-            <span className="ml-2">{customer.custno}</span>
+      <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
+        <div className="flex items-start justify-between">
+          <div className="flex items-center gap-4">
+            <div className="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center text-2xl">
+              👤
+            </div>
+            <div>
+              <h1 className="text-xl font-bold text-gray-900">{customer.custname}</h1>
+              <p className="text-sm text-gray-500">{customer.custno}</p>
+            </div>
           </div>
-          <div>
-            <span className="font-medium text-gray-500">Address:</span>
-            <span className="ml-2">{customer.address}</span>
+          <span className={`px-3 py-1 rounded-full text-xs font-semibold
+            ${customer.record_status === 'ACTIVE' ?
+              'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+            {customer.record_status}
+          </span>
+        </div>
+
+        <div className="grid grid-cols-3 gap-4 mt-6">
+          <div className="bg-gray-50 rounded-lg p-3">
+            <p className="text-xs text-gray-500 mb-1">Address</p>
+            <p className="text-sm font-medium text-gray-900">{customer.address}</p>
           </div>
-          <div>
-            <span className="font-medium text-gray-500">Pay Term:</span>
-            <span className="ml-2">{customer.payterm}</span>
+          <div className="bg-gray-50 rounded-lg p-3">
+            <p className="text-xs text-gray-500 mb-1">Pay Term</p>
+            <p className="text-sm font-medium text-gray-900">{customer.payterm}</p>
           </div>
-          <div>
-            <span className="font-medium text-gray-500">Status:</span>
-            <span className={`ml-2 px-2 py-1 rounded text-xs font-semibold
-              ${customer.record_status === 'ACTIVE' ?
-                'bg-green-100 text-green-700' :
-                'bg-red-100 text-red-700'}`}>
-              {customer.record_status}
-            </span>
+          <div className="bg-gray-50 rounded-lg p-3">
+            <p className="text-xs text-gray-500 mb-1">Total Transactions</p>
+            <p className="text-sm font-medium text-gray-900">{sales.length}</p>
           </div>
         </div>
       </div>
 
       <div className="grid grid-cols-2 gap-6">
-        {/* Sales History Panel */}
-        <div className="bg-white rounded shadow p-4">
-          <h2 className="text-lg font-bold mb-3 text-gray-800">
-            Sales History
-          </h2>
+        {/* Sales History */}
+        <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+          <div className="px-4 py-3 border-b border-gray-100">
+            <h2 className="font-semibold text-gray-900">Sales History</h2>
+            <p className="text-xs text-gray-500">{sales.length} transactions</p>
+          </div>
           {sales.length === 0 ? (
-            <p className="text-gray-500 text-sm">No sales recorded</p>
+            <div className="text-center py-10">
+              <p className="text-gray-400 text-sm">No sales recorded</p>
+            </div>
           ) : (
-            <table className="w-full text-sm">
-              <thead className="bg-gray-100">
-                <tr>
-                  <th className="px-3 py-2 text-left">Trans No</th>
-                  <th className="px-3 py-2 text-left">Date</th>
-                  <th className="px-3 py-2 text-left">Emp No</th>
-                </tr>
-              </thead>
-              <tbody>
-                {sales.map(s => (
-                  <tr
-                    key={s.transNo}
-                    onClick={() => handleTransClick(s.transno)}
-                    className={`border-b cursor-pointer hover:bg-blue-50
-                      ${selectedTrans === s.transNo ? 'bg-blue-100' : ''}`}
-                  >
-                    <td className="px-3 py-2 text-blue-600">{s.transno}</td>
-                    <td className="px-3 py-2">{s.salesdate}</td>
-                    <td className="px-3 py-2">{s.empno}</td>
+            <div className="overflow-y-auto max-h-96">
+              <table className="w-full text-sm">
+                <thead className="bg-gray-50 sticky top-0">
+                  <tr>
+                    <th className="px-4 py-2 text-left text-xs font-semibold text-gray-600">Trans No</th>
+                    <th className="px-4 py-2 text-left text-xs font-semibold text-gray-600">Date</th>
+                    <th className="px-4 py-2 text-left text-xs font-semibold text-gray-600">Emp No</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody className="divide-y divide-gray-100">
+                  {sales.map(s => (
+                    <tr
+                      key={s.transno}
+                      onClick={() => handleTransClick(s.transno)}
+                      className={`cursor-pointer transition-colors
+                        ${selectedTrans === s.transno ?
+                          'bg-blue-50 border-l-2 border-blue-500' :
+                          'hover:bg-gray-50'}`}
+                    >
+                      <td className="px-4 py-2.5 text-blue-600 font-medium">{s.transno}</td>
+                      <td className="px-4 py-2.5 text-gray-600">{s.salesdate}</td>
+                      <td className="px-4 py-2.5 text-gray-600">{s.empno}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           )}
         </div>
 
-        {/* Sales Detail Panel */}
-        <div className="bg-white rounded shadow p-4">
-          <h2 className="text-lg font-bold mb-3 text-gray-800">
-            {selectedTrans ? `Transaction: ${selectedTrans}` : 'Select a transaction'}
-          </h2>
-          {!selectedTrans ? (
-            <p className="text-gray-500 text-sm">
-              Click a transaction to see line items
+        {/* Sales Detail */}
+        <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+          <div className="px-4 py-3 border-b border-gray-100">
+            <h2 className="font-semibold text-gray-900">
+              {selectedTrans ? `Transaction: ${selectedTrans}` : 'Transaction Details'}
+            </h2>
+            <p className="text-xs text-gray-500">
+              {selectedTrans ? `${salesDetail.length} line items` : 'Select a transaction'}
             </p>
+          </div>
+          {!selectedTrans ? (
+            <div className="text-center py-10">
+              <p className="text-3xl mb-2">👆</p>
+              <p className="text-gray-400 text-sm">Click a transaction to see line items</p>
+            </div>
           ) : detailLoading ? (
-            <p className="text-gray-500 text-sm">Loading...</p>
+            <div className="flex items-center justify-center py-10">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+            </div>
           ) : (
-            <table className="w-full text-sm">
-              <thead className="bg-gray-100">
-                <tr>
-                  <th className="px-3 py-2 text-left">Product</th>
-                  <th className="px-3 py-2 text-left">Qty</th>
-                  <th className="px-3 py-2 text-left">Unit</th>
-                </tr>
-              </thead>
-              <tbody>
-                {salesDetail.map((sd, i) => (
-                  <tr key={i} className="border-b">
-                    <td className="px-3 py-2">
-                      {sd.product?.description || sd.prodCode}
-                    </td>
-                    <td className="px-3 py-2">{sd.quantity}</td>
-                    <td className="px-3 py-2">{sd.product?.unit}</td>
+            <div className="overflow-y-auto max-h-96">
+              <table className="w-full text-sm">
+                <thead className="bg-gray-50 sticky top-0">
+                  <tr>
+                    <th className="px-4 py-2 text-left text-xs font-semibold text-gray-600">Product</th>
+                    <th className="px-4 py-2 text-left text-xs font-semibold text-gray-600">Qty</th>
+                    <th className="px-4 py-2 text-left text-xs font-semibold text-gray-600">Unit</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody className="divide-y divide-gray-100">
+                  {salesDetail.map((sd, i) => (
+                    <tr key={i} className="hover:bg-gray-50">
+                      <td className="px-4 py-2.5 text-gray-900">{sd.product?.description || sd.prodcode}</td>
+                      <td className="px-4 py-2.5 text-gray-600">{sd.quantity}</td>
+                      <td className="px-4 py-2.5 text-gray-600">{sd.product?.unit}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           )}
         </div>
       </div>

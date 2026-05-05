@@ -10,7 +10,6 @@ export default function DeletedCustomersPage() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    // Block USER from this page
     if (currentUser?.user_type === 'USER') {
       navigate('/customers')
       return
@@ -21,9 +20,7 @@ export default function DeletedCustomersPage() {
   async function loadDeletedCustomers() {
     try {
       setLoading(true)
-      // Get ALL customers including INACTIVE
       const data = await getCustomers('ADMIN')
-      // Filter only INACTIVE
       setCustomers(data.filter(c => c.record_status === 'INACTIVE'))
     } catch (err) {
       console.error(err)
@@ -43,60 +40,64 @@ export default function DeletedCustomersPage() {
 
   return (
     <div>
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold text-gray-800">
-          Deleted Customers
-        </h1>
-        <span className="text-sm text-gray-500">
-          ADMIN / SUPERADMIN only
+      <div className="flex justify-between items-center mb-6">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900">Deleted Customers</h1>
+          <p className="text-sm text-gray-500 mt-1">{customers.length} inactive customers</p>
+        </div>
+        <span className="bg-red-100 text-red-600 px-3 py-1 rounded-full text-xs font-medium">
+          Admin / Superadmin only
         </span>
       </div>
 
       {loading ? (
-        <div className="text-center py-10 text-gray-500">Loading...</div>
+        <div className="flex items-center justify-center py-20">
+          <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-600"></div>
+        </div>
       ) : customers.length === 0 ? (
-        <div className="text-center py-10 text-gray-500">
-          No deleted customers found
+        <div className="text-center py-20 bg-white rounded-xl shadow-sm">
+          <p className="text-4xl mb-3">✅</p>
+          <p className="text-gray-500">No deleted customers</p>
         </div>
       ) : (
-        <div className="overflow-x-auto">
-          <table className="w-full bg-white rounded shadow text-sm">
-            <thead className="bg-red-600 text-white">
-              <tr>
-                <th className="px-4 py-3 text-left">Cust No</th>
-                <th className="px-4 py-3 text-left">Name</th>
-                <th className="px-4 py-3 text-left">Address</th>
-                <th className="px-4 py-3 text-left">Pay Term</th>
-                <th className="px-4 py-3 text-left">Stamp</th>
-                <th className="px-4 py-3 text-left">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {customers.map((c, i) => (
-                <tr
-                  key={c.custno}
-                  className={`border-b hover:bg-gray-50
-                    ${i % 2 === 0 ? 'bg-white' : 'bg-gray-50'}`}
-                >
-                  <td className="px-4 py-3">{c.custno}</td>
-                  <td className="px-4 py-3">{c.custname}</td>
-                  <td className="px-4 py-3">{c.address}</td>
-                  <td className="px-4 py-3">{c.payterm}</td>
-                  <td className="px-4 py-3 text-xs text-gray-400">
-                    {c.stamp}
-                  </td>
-                  <td className="px-4 py-3">
-                    <button
-                      onClick={() => handleRecover(c.custno)}
-                      className="bg-green-500 text-white px-3 py-1 rounded text-xs hover:bg-green-600"
-                    >
-                      Recover
-                    </button>
-                  </td>
+        <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="bg-gray-50 border-b border-gray-200">
+                  <th className="px-4 py-3 text-left font-semibold text-gray-600">Cust No</th>
+                  <th className="px-4 py-3 text-left font-semibold text-gray-600">Name</th>
+                  <th className="px-4 py-3 text-left font-semibold text-gray-600">Address</th>
+                  <th className="px-4 py-3 text-left font-semibold text-gray-600">Pay Term</th>
+                  <th className="px-4 py-3 text-left font-semibold text-gray-600">Stamp</th>
+                  <th className="px-4 py-3 text-left font-semibold text-gray-600">Action</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="divide-y divide-gray-100">
+                {customers.map((c) => (
+                  <tr key={c.custno} className="hover:bg-gray-50 transition-colors">
+                    <td className="px-4 py-3 font-medium text-gray-900">{c.custno}</td>
+                    <td className="px-4 py-3 text-gray-900">{c.custname}</td>
+                    <td className="px-4 py-3 text-gray-600">{c.address}</td>
+                    <td className="px-4 py-3">
+                      <span className="px-2.5 py-1 rounded-full text-xs font-semibold bg-gray-100 text-gray-700">
+                        {c.payterm}
+                      </span>
+                    </td>
+                    <td className="px-4 py-3 text-xs text-gray-400">{c.stamp}</td>
+                    <td className="px-4 py-3">
+                      <button
+                        onClick={() => handleRecover(c.custno)}
+                        className="bg-green-100 text-green-700 hover:bg-green-200 px-3 py-1 rounded-lg text-xs font-semibold transition-colors"
+                      >
+                        Recover
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
     </div>

@@ -6,9 +6,7 @@ export default function SalesPage() {
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
 
-  useEffect(() => {
-    loadSales()
-  }, [])
+  useEffect(() => { loadSales() }, [])
 
   async function loadSales() {
     try {
@@ -34,57 +32,62 @@ export default function SalesPage() {
 
   return (
     <div>
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold text-gray-800">Sales</h1>
-        <span className="text-sm text-gray-500">Read-only</span>
+      <div className="flex justify-between items-center mb-6">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900">Sales</h1>
+          <p className="text-sm text-gray-500 mt-1">
+            {filtered.length} of {sales.length} transactions
+          </p>
+        </div>
+        <span className="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-xs font-medium">
+          Read-only
+        </span>
       </div>
 
-      {/* Search */}
-      <input
-        type="text"
-        placeholder="Search by transaction no, customer no, or employee..."
-        className="w-full border rounded px-3 py-2 mb-4 text-sm"
-        value={search}
-        onChange={e => setSearch(e.target.value)}
-      />
+      <div className="relative mb-4">
+        <span className="absolute left-3 top-2.5 text-gray-400">🔍</span>
+        <input
+          type="text"
+          placeholder="Search by transaction no, customer no, or employee..."
+          className="w-full border border-gray-300 rounded-lg pl-9 pr-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+        />
+      </div>
 
-      {/* Table */}
       {loading ? (
-        <div className="text-center py-10 text-gray-500">
-          Loading sales...
+        <div className="flex items-center justify-center py-20">
+          <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-600"></div>
         </div>
       ) : filtered.length === 0 ? (
-        <div className="text-center py-10 text-gray-500">
-          No sales recorded
+        <div className="text-center py-20 bg-white rounded-xl shadow-sm">
+          <p className="text-4xl mb-3">🧾</p>
+          <p className="text-gray-500">No sales found</p>
         </div>
       ) : (
-        <div className="overflow-x-auto">
-          <table className="w-full bg-white rounded shadow text-sm">
-            <thead className="bg-blue-600 text-white">
-              <tr>
-                <th className="px-4 py-3 text-left">Trans No</th>
-                <th className="px-4 py-3 text-left">Date</th>
-                <th className="px-4 py-3 text-left">Customer No</th>
-                <th className="px-4 py-3 text-left">Employee No</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filtered.map((s, i) => (
-                <tr
-                  key={s.transno}
-                  className={`border-b hover:bg-gray-50
-                    ${i % 2 === 0 ? 'bg-white' : 'bg-gray-50'}`}
-                >
-                  <td className="px-4 py-3 font-medium text-blue-600">
-                    {s.transno}
-                  </td>
-                  <td className="px-4 py-3">{s.salesdate}</td>
-                  <td className="px-4 py-3">{s.custno}</td>
-                  <td className="px-4 py-3">{s.empno}</td>
+        <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="bg-gray-50 border-b border-gray-200">
+                  <th className="px-4 py-3 text-left font-semibold text-gray-600">Trans No</th>
+                  <th className="px-4 py-3 text-left font-semibold text-gray-600">Date</th>
+                  <th className="px-4 py-3 text-left font-semibold text-gray-600">Customer No</th>
+                  <th className="px-4 py-3 text-left font-semibold text-gray-600">Employee No</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="divide-y divide-gray-100">
+                {filtered.map((s) => (
+                  <tr key={s.transno} className="hover:bg-blue-50 transition-colors">
+                    <td className="px-4 py-3 font-medium text-blue-600">{s.transno}</td>
+                    <td className="px-4 py-3 text-gray-600">{s.salesdate}</td>
+                    <td className="px-4 py-3 text-gray-900">{s.custno}</td>
+                    <td className="px-4 py-3 text-gray-900">{s.empno}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
     </div>
