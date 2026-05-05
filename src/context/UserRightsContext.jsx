@@ -34,12 +34,28 @@ export function UserRightsProvider({ children }) {
 
       if (error) throw error
 
-      // Convert array to object
-      const rightsMap = {}
-      data.forEach(row => {
-        rightsMap[row.rightcode] = row.right_value
-      })
-      setRights(rightsMap)
+      if (data && data.length > 0) {
+        // Build rights map
+        const rightsMap = {
+          CUST_VIEW: 0,
+          CUST_ADD: 0,
+          CUST_EDIT: 0,
+          CUST_DEL: 0,
+          SALES_VIEW: 0,
+          SD_VIEW: 0,
+          PROD_VIEW: 0,
+          PRICE_VIEW: 0,
+          ADM_USER: 0
+        }
+
+        data.forEach(row => {
+          const code = row.rightcode.toUpperCase().trim()
+          rightsMap[code] = row.right_value
+        })
+
+        console.log('Final rights map:', rightsMap)
+        setRights(rightsMap)
+      }
     } catch (err) {
       console.error('Error loading rights:', err)
     } finally {

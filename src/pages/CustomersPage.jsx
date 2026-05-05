@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useRights } from '../context/UserRightsContext'
 import { getCustomers, softDeleteCustomer } from '../services/customerService'
-
+import { supabase } from '../supabaseClient'
 export default function CustomersPage() {
   const { currentUser } = useAuth()
   const { rights } = useRights()
@@ -347,18 +347,33 @@ function EditCustomerModal({ customer, onClose, onSaved }) {
 function SoftDeleteDialog({ customer, onClose, onDeleted, userId }) {
   const [loading, setLoading] = useState(false)
 
-  async function handleDelete() {
-    setLoading(true)
-    try {
-      await softDeleteCustomer(customer.custno, userId)
-      onDeleted()
-      onClose()
-    } catch (err) {
-      console.error(err)
-    } finally {
-      setLoading(false)
-    }
+async function handleDelete() {
+  setLoading(true)
+  try {
+    console.log('Deleting customer:', customer.custno)
+    console.log('User ID:', userId)
+    
+    const { data, error } = await supabase
+      .from('customer')
+      .update({ 
+        record_status: 'INACTIVE', 
+       stamp: `DEL-${new Date().toISOString().slice(0,10)}`
+      })
+      .eq('custno', customer.custno)
+    
+    console.log('Delete result:', data)
+    console.log('Delete error:', error)
+    
+    if (error) throw error
+    onDeleted()
+    onClose()
+  } catch (err) {
+    console.error('Delete failed:', err)
+    alert('Error: ' + err.message)
+  } finally {
+    setLoading(false)
   }
+}
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
