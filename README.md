@@ -1,6 +1,6 @@
 # Hope, Inc. Customer Management System (CMS)
 
-A 6-week capstone project for a 5-member BS Computer Science team.
+A 6-week capstone project for a 5-member BS Information Technology team.
 
 ## 🚀 Tech Stack
 - React 18 + Vite
