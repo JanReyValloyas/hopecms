@@ -13,128 +13,113 @@ export default function AppShell({ children }) {
     navigate('/login')
   }
 
-  const isActive = (path) => location.pathname === path
-    ? 'bg-blue-600 text-white'
-    : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+  const NavLink = ({ to, icon, label }) => {
+    const active = location.pathname === to || location.pathname.startsWith(to + '/')
+    return (
+      <Link to={to}
+        className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all"
+        style={{
+          background: active ? 'rgba(0, 113, 227, 0.1)' : 'transparent',
+          color: active ? '#0071e3' : '#6e6e73',
+        }}
+      >
+        <span className="text-base">{icon}</span>
+        <span>{label}</span>
+      </Link>
+    )
+  }
+
+  const SectionLabel = ({ label }) => (
+    <p className="text-xs font-semibold px-3 mt-5 mb-1 uppercase tracking-widest"
+      style={{color: '#c7c7cc'}}>
+      {label}
+    </p>
+  )
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-100">
+    <div className="min-h-screen flex flex-col" style={{background: '#f5f5f7'}}>
       {/* NAVBAR */}
-      <nav className="bg-gray-900 text-white px-6 py-3 flex justify-between items-center shadow-lg fixed top-0 left-0 right-0 z-50">
+      <nav className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-6 py-4"
+        style={{
+          background: 'rgba(255,255,255,0.85)',
+          backdropFilter: 'blur(20px)',
+          borderBottom: '1px solid rgba(0,0,0,0.06)',
+          WebkitBackdropFilter: 'blur(20px)'
+        }}>
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+          <div className="w-8 h-8 rounded-xl flex items-center justify-center"
+            style={{background: 'linear-gradient(135deg, #0071e3, #42a5f5)'}}>
             <span className="text-sm">🏢</span>
           </div>
-          <h1 className="font-bold text-lg">Hope, Inc. CMS</h1>
+          <div>
+            <h1 className="font-semibold text-sm" style={{color: '#1d1d1f'}}>Hope, Inc.</h1>
+            <p className="text-xs" style={{color: '#a1a1a6'}}>CMS</p>
+          </div>
         </div>
-        <div className="flex items-center gap-3">
+
+        <div className="flex items-center gap-4">
           <div className="text-right">
-            <p className="text-sm font-medium">
-              {currentUser?.username || currentUser?.email}
+            <p className="text-sm font-medium" style={{color: '#1d1d1f'}}>
+              {currentUser?.username || currentUser?.email?.split('@')[0]}
             </p>
-            <p className="text-xs text-gray-400">
+            <p className="text-xs" style={{color: '#a1a1a6'}}>
               {currentUser?.user_type || 'USER'}
             </p>
           </div>
-          <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-sm font-bold">
+          <div className="w-9 h-9 rounded-full flex items-center justify-center text-white text-sm font-semibold"
+            style={{background: 'linear-gradient(135deg, #0071e3, #42a5f5)'}}>
             {(currentUser?.username || currentUser?.email || 'U')[0].toUpperCase()}
           </div>
           <button
             onClick={handleLogout}
-            className="bg-gray-700 hover:bg-gray-600 text-white px-3 py-1.5 rounded-lg text-sm font-medium transition-colors"
+            className="px-4 py-2 rounded-xl text-sm font-medium"
+            style={{
+              background: '#f5f5f7',
+              color: '#ff3b30',
+              border: '1px solid #ffd6d6'
+            }}
           >
-            Logout
+            Sign Out
           </button>
         </div>
       </nav>
 
-      <div className="flex flex-1 pt-14">
+      <div className="flex flex-1 pt-16">
         {/* SIDEBAR */}
-        <aside className="w-56 bg-gray-900 text-white flex flex-col py-4 fixed left-0 top-14 bottom-0 overflow-y-auto">
+        <aside className="fixed left-0 top-16 bottom-0 w-56 py-4 px-3 overflow-y-auto"
+          style={{
+            background: 'rgba(255,255,255,0.85)',
+            backdropFilter: 'blur(20px)',
+            WebkitBackdropFilter: 'blur(20px)',
+            borderRight: '1px solid rgba(0,0,0,0.06)'
+          }}>
 
-          {/* MAIN */}
-          <div className="px-4 mb-2">
-            <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
-              Main
-            </p>
-          </div>
+          <SectionLabel label="Main" />
+          {rights.CUST_VIEW === 1 && <NavLink to="/customers" icon="👥" label="Customers" />}
+          {rights.SALES_VIEW === 1 && <NavLink to="/sales" icon="🧾" label="Sales" />}
+          {rights.PROD_VIEW === 1 && <NavLink to="/products" icon="📦" label="Products" />}
 
-          {rights.CUST_VIEW === 1 && (
-            <Link to="/customers"
-              className={`mx-2 px-3 py-2 rounded-lg text-sm flex items-center gap-2 mb-1 transition-colors ${isActive('/customers')}`}>
-              <span>👥</span> Customers
-            </Link>
-          )}
+          <SectionLabel label="Reports" />
+          {rights.SALES_VIEW === 1 && <NavLink to="/reports/sales-summary" icon="📊" label="Sales Summary" />}
+          {rights.SALES_VIEW === 1 && <NavLink to="/reports/top-customers" icon="🏆" label="Top Customers" />}
+          {rights.PROD_VIEW === 1 && <NavLink to="/reports/product-revenue" icon="💰" label="Product Revenue" />}
 
-          {rights.SALES_VIEW === 1 && (
-            <Link to="/sales"
-              className={`mx-2 px-3 py-2 rounded-lg text-sm flex items-center gap-2 mb-1 transition-colors ${isActive('/sales')}`}>
-              <span>🧾</span> Sales
-            </Link>
-          )}
-
-          {rights.PROD_VIEW === 1 && (
-            <Link to="/products"
-              className={`mx-2 px-3 py-2 rounded-lg text-sm flex items-center gap-2 mb-1 transition-colors ${isActive('/products')}`}>
-              <span>📦</span> Products
-            </Link>
-          )}
-
-          {/* REPORTS */}
-          <div className="px-4 mt-4 mb-2">
-            <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
-              Reports
-            </p>
-          </div>
-
-          {rights.SALES_VIEW === 1 && (
-            <Link to="/reports/sales-summary"
-              className={`mx-2 px-3 py-2 rounded-lg text-sm flex items-center gap-2 mb-1 transition-colors ${isActive('/reports/sales-summary')}`}>
-              <span>📊</span> Sales Summary
-            </Link>
-          )}
-
-          {rights.SALES_VIEW === 1 && (
-            <Link to="/reports/top-customers"
-              className={`mx-2 px-3 py-2 rounded-lg text-sm flex items-center gap-2 mb-1 transition-colors ${isActive('/reports/top-customers')}`}>
-              <span>🏆</span> Top Customers
-            </Link>
-          )}
-
-          {rights.PROD_VIEW === 1 && (
-            <Link to="/reports/product-revenue"
-              className={`mx-2 px-3 py-2 rounded-lg text-sm flex items-center gap-2 mb-1 transition-colors ${isActive('/reports/product-revenue')}`}>
-              <span>💰</span> Product Revenue
-            </Link>
-          )}
-
-          {/* ADMIN */}
           {rights.ADM_USER === 1 && (
             <>
-              <div className="px-4 mt-4 mb-2">
-                <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                  Admin
-                </p>
-              </div>
-              <Link to="/admin"
-                className={`mx-2 px-3 py-2 rounded-lg text-sm flex items-center gap-2 mb-1 transition-colors ${isActive('/admin')}`}>
-                <span>⚙️</span> User Management
-              </Link>
+              <SectionLabel label="Admin" />
+              <NavLink to="/admin" icon="⚙️" label="User Management" />
             </>
           )}
 
           {(currentUser?.user_type === 'ADMIN' ||
             currentUser?.user_type === 'SUPERADMIN' ||
             rights.ADM_USER === 1) && (
-            <Link to="/deleted-customers"
-              className={`mx-2 px-3 py-2 rounded-lg text-sm flex items-center gap-2 mb-1 transition-colors ${isActive('/deleted-customers')}`}>
-              <span>🗑️</span> Deleted Customers
-            </Link>
+            <NavLink to="/deleted-customers" icon="🗑️" label="Deleted Customers" />
           )}
         </aside>
 
         {/* MAIN CONTENT */}
-        <main className="flex-1 ml-56 p-6">
+        <main className="flex-1 ml-56 p-8">
           {children}
         </main>
       </div>

@@ -2,24 +2,98 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+* {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 body {
-  font-family: 'Inter', sans-serif;
-  background-color: #f3f4f6;
+  background-color: #f5f5f7;
+  color: #1d1d1f;
+}
+
+/* Premium scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #c7c7cc;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #a1a1a6;
 }
 
 /* Smooth transitions */
 * {
-  transition: background-color 0.15s ease, color 0.15s ease;
+  transition: background-color 0.2s ease, 
+              color 0.2s ease, 
+              border-color 0.2s ease,
+              box-shadow 0.2s ease,
+              transform 0.2s ease;
 }
 
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
+/* Premium card */
+.card {
+  background: white;
+  border-radius: 18px;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+  border: 1px solid rgba(0,0,0,0.04);
 }
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
+
+/* Premium button */
+.btn-primary {
+  background: #0071e3;
+  color: white;
+  border-radius: 980px;
+  padding: 8px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
 }
-::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 3px;
+
+.btn-primary:hover {
+  background: #0077ed;
+  transform: scale(1.02);
+}
+
+/* Table styles */
+.premium-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.premium-table th {
+  font-size: 12px;
+  font-weight: 600;
+  color: #6e6e73;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 12px 16px;
+  background: #f5f5f7;
+  border-bottom: 1px solid #e5e5ea;
+}
+
+.premium-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid #f2f2f7;
+  font-size: 14px;
+  color: #1d1d1f;
+}
+
+.premium-table tr:hover td {
+  background: #f5f5f7;
+}
+
+.premium-table tr:last-child td {
+  border-bottom: none;
 }
