@@ -19,81 +19,62 @@ export default function AppShell({ children }) {
     const active = location.pathname === to || location.pathname.startsWith(to + '/')
     return (
       <Link to={to}
-        title={collapsed ? label : ''}
-        className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all group"
-        style={{
-          background: active ? 'rgba(37, 99, 235, 0.15)' : 'transparent',
-          color: active ? '#60a5fa' : '#94a3b8',
-        }}
+        className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all group ${
+          active
+            ? 'bg-rose-50 text-rose-600'
+            : 'text-gray-500 hover:bg-gray-100 hover:text-gray-900'
+        }`}
       >
-        <span className="text-lg flex-shrink-0 group-hover:scale-110 transition-transform">{icon}</span>
+        <span className="text-base flex-shrink-0">{icon}</span>
         {!collapsed && <span className="truncate">{label}</span>}
+        {active && !collapsed && (
+          <span className="ml-auto w-1.5 h-1.5 rounded-full bg-rose-500 flex-shrink-0"></span>
+        )}
       </Link>
     )
   }
 
-  const SectionLabel = ({ label }) => collapsed ? (
-    <div className="h-px bg-slate-700 mx-3 my-3"></div>
-  ) : (
-    <p className="text-xs font-semibold px-3 mt-5 mb-1 uppercase tracking-widest text-slate-500">
+  const SectionLabel = ({ label }) => !collapsed ? (
+    <p className="text-xs font-semibold px-3 mt-6 mb-2 uppercase tracking-widest text-gray-400">
       {label}
     </p>
-  )
-
-  const sidebarWidth = collapsed ? '68px' : '240px'
+  ) : <div className="h-px bg-gray-100 mx-3 my-3"></div>
 
   return (
-    <div className="min-h-screen flex" style={{background: '#F8FAFC'}}>
+    <div className="min-h-screen flex bg-gray-50">
       {/* SIDEBAR */}
       <aside
-        className="fixed left-0 top-0 bottom-0 flex flex-col z-50"
+        className="fixed left-0 top-0 bottom-0 flex flex-col bg-white border-r border-gray-100 z-50"
         style={{
-          width: sidebarWidth,
-          background: '#0f172a',
+          width: collapsed ? '68px' : '240px',
           transition: 'width 0.3s ease',
-          borderRight: '1px solid rgba(255,255,255,0.05)'
         }}
       >
         {/* Logo */}
-        <div className="flex items-center justify-between px-4 py-5 border-b border-slate-800">
+        <div className="flex items-center justify-between px-4 py-5 border-b border-gray-100">
           <div className="flex items-center gap-3 overflow-hidden">
-            <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0"
-              style={{background: 'linear-gradient(135deg, #2563eb, #3b82f6)'}}>
-              <span className="text-sm">🏢</span>
+            <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 bg-rose-500">
+              <span className="text-white text-sm font-bold">H</span>
             </div>
             {!collapsed && (
-              <div className="overflow-hidden">
-                <p className="font-bold text-white text-sm truncate">Hope, Inc.</p>
-                <p className="text-xs text-slate-500 truncate">CMS Platform</p>
+              <div>
+                <p className="font-bold text-gray-900 text-sm">HopeCMS</p>
+                <p className="text-xs text-gray-400">Management System</p>
               </div>
             )}
           </div>
-          {!collapsed && (
-            <button
-              onClick={() => setCollapsed(true)}
-              className="text-slate-500 hover:text-white transition-colors flex-shrink-0"
-              title="Collapse sidebar"
-            >
-              ◀
-            </button>
-          )}
+          <button
+            onClick={() => setCollapsed(!collapsed)}
+            className="text-gray-400 hover:text-gray-600 transition-colors flex-shrink-0 w-6 h-6 flex items-center justify-center rounded-lg hover:bg-gray-100"
+          >
+            {collapsed ? '›' : '‹'}
+          </button>
         </div>
 
-        {/* Expand button when collapsed */}
-        {collapsed && (
-          <button
-            onClick={() => setCollapsed(false)}
-            className="mx-auto mt-2 w-8 h-8 flex items-center justify-center rounded-lg text-slate-500 hover:text-white hover:bg-slate-800 transition-all"
-            title="Expand sidebar"
-          >
-            ▶
-          </button>
-        )}
-
         {/* Navigation */}
-        <nav className="flex-1 px-2 py-3 overflow-y-auto overflow-x-hidden">
+        <nav className="flex-1 px-2 py-3 overflow-y-auto overflow-x-hidden space-y-0.5">
           <SectionLabel label="Main" />
-          <NavLink to="/dashboard" icon="🏠" label="Dashboard" />
+          <NavLink to="/dashboard" icon="⊞" label="Dashboard" />
           {rights.CUST_VIEW === 1 && <NavLink to="/customers" icon="👥" label="Customers" />}
           {rights.SALES_VIEW === 1 && <NavLink to="/sales" icon="🧾" label="Sales" />}
           {rights.PROD_VIEW === 1 && <NavLink to="/products" icon="📦" label="Products" />}
@@ -116,27 +97,24 @@ export default function AppShell({ children }) {
           )}
         </nav>
 
-        {/* User Profile at Bottom */}
-        <div className="border-t border-slate-800 p-3">
-          <div className="flex items-center gap-3 px-2 py-2 rounded-xl overflow-hidden">
-            <div className="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0"
-              style={{background: 'linear-gradient(135deg, #2563eb, #3b82f6)'}}>
+        {/* User at bottom */}
+        <div className="border-t border-gray-100 p-3 space-y-1">
+          <div className={`flex items-center gap-3 px-2 py-2 rounded-xl overflow-hidden ${collapsed ? 'justify-center' : ''}`}>
+            <div className="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0 bg-rose-400">
               {(currentUser?.username || currentUser?.email || 'U')[0].toUpperCase()}
             </div>
             {!collapsed && (
               <div className="flex-1 overflow-hidden">
-                <p className="text-sm font-medium text-white truncate">
+                <p className="text-sm font-semibold text-gray-900 truncate">
                   {currentUser?.username || currentUser?.email?.split('@')[0]}
                 </p>
-                <p className="text-xs text-slate-500 truncate">
-                  {currentUser?.user_type || 'USER'}
-                </p>
+                <p className="text-xs text-gray-400 truncate">{currentUser?.user_type || 'USER'}</p>
               </div>
             )}
           </div>
           <button
             onClick={handleLogout}
-            className="mt-2 w-full flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium text-red-400 hover:bg-red-500 hover:text-white transition-all"
+            className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium text-gray-500 hover:bg-rose-50 hover:text-rose-600 transition-all ${collapsed ? 'justify-center' : ''}`}
           >
             <span className="flex-shrink-0">🚪</span>
             {!collapsed && <span>Sign Out</span>}
@@ -144,13 +122,38 @@ export default function AppShell({ children }) {
         </div>
       </aside>
 
+      {/* Top Navbar */}
+      <div
+        className="fixed top-0 right-0 z-40 flex items-center justify-between px-8 py-4 bg-white border-b border-gray-100"
+        style={{
+          left: collapsed ? '68px' : '240px',
+          transition: 'left 0.3s ease'
+        }}
+      >
+        <div>
+          <h2 className="text-sm font-semibold text-gray-900 capitalize">
+            {location.pathname.split('/')[1].replace('-', ' ') || 'Dashboard'}
+          </h2>
+          <p className="text-xs text-gray-400">
+            {new Date().toLocaleDateString('en-PH', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+          </p>
+        </div>
+        <div className="flex items-center gap-3">
+          <div className="px-3 py-1.5 rounded-full text-xs font-medium bg-rose-50 text-rose-600 border border-rose-100">
+            {currentUser?.user_type || 'USER'}
+          </div>
+          <div className="w-8 h-8 rounded-full bg-rose-400 flex items-center justify-center text-white text-xs font-bold">
+            {(currentUser?.username || currentUser?.email || 'U')[0].toUpperCase()}
+          </div>
+        </div>
+      </div>
+
       {/* MAIN CONTENT */}
       <main
-        className="flex-1 min-h-screen"
+        className="flex-1 pt-20 px-8 pb-8"
         style={{
-          marginLeft: sidebarWidth,
+          marginLeft: collapsed ? '68px' : '240px',
           transition: 'margin-left 0.3s ease',
-          padding: '32px',
         }}
       >
         {children}
