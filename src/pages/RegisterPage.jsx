@@ -18,20 +18,11 @@ export default function RegisterPage() {
     setError('')
     setSuccess('')
     const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: {
-          full_name: `${firstName} ${lastName}`,
-          username: username
-        }
-      }
+      email, password,
+      options: { data: { full_name: `${firstName} ${lastName}`, username } }
     })
-    if (error) {
-      setError(error.message)
-    } else {
-      setSuccess('Registration successful! Please wait for admin activation.')
-    }
+    if (error) setError(error.message)
+    else setSuccess('Registration successful! Please wait for admin activation before logging in.')
     setLoading(false)
   }
 
@@ -43,31 +34,65 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-900 via-blue-800 to-blue-600">
-      <div className="w-full max-w-md px-4 py-8">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-white rounded-2xl shadow-lg mb-4">
-            <span className="text-3xl">🏢</span>
+    <div className="min-h-screen flex bg-gray-50">
+      {/* Left Panel */}
+      <div className="hidden lg:flex lg:w-1/2 flex-col justify-between p-16 relative overflow-hidden"
+        style={{background: 'linear-gradient(135deg, #fff1f2 0%, #ffe4e6 50%, #fecdd3 100%)'}}>
+
+        <div className="absolute top-0 right-0 w-96 h-96 rounded-full opacity-20"
+          style={{background: 'radial-gradient(circle, #f43f5e, transparent)', transform: 'translate(30%, -30%)'}}></div>
+        <div className="absolute bottom-0 left-0 w-64 h-64 rounded-full opacity-20"
+          style={{background: 'radial-gradient(circle, #fb7185, transparent)', transform: 'translate(-30%, 30%)'}}></div>
+
+        <div className="relative z-10">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-2xl bg-rose-500 flex items-center justify-center">
+              <span className="text-white font-bold text-lg">H</span>
+            </div>
+            <span className="font-bold text-gray-900 text-lg">HopeCMS</span>
           </div>
-          <h1 className="text-3xl font-bold text-white">Hope, Inc.</h1>
-          <p className="text-blue-200 mt-1">Customer Management System</p>
         </div>
 
-        {/* Card */}
-        <div className="bg-white rounded-2xl shadow-2xl p-8">
-          <h2 className="text-xl font-semibold text-gray-800 mb-6">
-            Create an account
+        <div className="relative z-10">
+          <h2 className="text-5xl font-bold text-gray-900 leading-tight mb-6">
+            Join the<br />
+            <span className="text-rose-500">Hope, Inc.</span><br />
+            platform.
           </h2>
+          <p className="text-gray-500 text-lg leading-relaxed max-w-sm">
+            Create your account and start managing customers with precision and elegance.
+          </p>
+        </div>
+
+        <div className="relative z-10">
+          <p className="text-sm text-gray-400 italic">
+            "Your account will be activated by an administrator."
+          </p>
+        </div>
+      </div>
+
+      {/* Right Panel */}
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-8">
+        <div className="w-full max-w-sm">
+
+          <div className="lg:hidden flex items-center gap-3 mb-10">
+            <div className="w-10 h-10 rounded-2xl bg-rose-500 flex items-center justify-center">
+              <span className="text-white font-bold text-lg">H</span>
+            </div>
+            <span className="font-bold text-gray-900 text-lg">HopeCMS</span>
+          </div>
+
+          <h2 className="text-3xl font-bold text-gray-900 mb-2">Create account</h2>
+          <p className="text-gray-400 text-sm mb-8">Fill in your details to get started</p>
 
           {error && (
-            <div className="bg-red-50 border border-red-200 text-red-700 p-3 rounded-lg mb-4 text-sm flex items-center gap-2">
+            <div className="mb-4 p-4 rounded-2xl text-sm flex items-center gap-3 bg-rose-50 border border-rose-100 text-rose-700">
               <span>⚠️</span> {error}
             </div>
           )}
 
           {success && (
-            <div className="bg-green-50 border border-green-200 text-green-700 p-3 rounded-lg mb-4 text-sm flex items-center gap-2">
+            <div className="mb-4 p-4 rounded-2xl text-sm flex items-center gap-3 bg-emerald-50 border border-emerald-100 text-emerald-700">
               <span>✅</span> {success}
             </div>
           )}
@@ -75,12 +100,10 @@ export default function RegisterPage() {
           <form onSubmit={handleRegister} className="space-y-4">
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  First Name
-                </label>
+                <label className="block text-sm font-medium text-gray-700 mb-1.5">First Name</label>
                 <input
                   type="text"
-                  className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-3 rounded-xl text-sm outline-none border border-gray-200 focus:border-rose-400 focus:ring-2 focus:ring-rose-100 transition-all bg-white"
                   value={firstName}
                   onChange={e => setFirstName(e.target.value)}
                   required
@@ -88,12 +111,10 @@ export default function RegisterPage() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Last Name
-                </label>
+                <label className="block text-sm font-medium text-gray-700 mb-1.5">Last Name</label>
                 <input
                   type="text"
-                  className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-3 rounded-xl text-sm outline-none border border-gray-200 focus:border-rose-400 focus:ring-2 focus:ring-rose-100 transition-all bg-white"
                   value={lastName}
                   onChange={e => setLastName(e.target.value)}
                   required
@@ -103,12 +124,10 @@ export default function RegisterPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Username
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-1.5">Username</label>
               <input
                 type="text"
-                className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-4 py-3 rounded-xl text-sm outline-none border border-gray-200 focus:border-rose-400 focus:ring-2 focus:ring-rose-100 transition-all bg-white"
                 value={username}
                 onChange={e => setUsername(e.target.value)}
                 required
@@ -117,12 +136,10 @@ export default function RegisterPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Email Address
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-1.5">Email Address</label>
               <input
                 type="email"
-                className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-4 py-3 rounded-xl text-sm outline-none border border-gray-200 focus:border-rose-400 focus:ring-2 focus:ring-rose-100 transition-all bg-white"
                 value={email}
                 onChange={e => setEmail(e.target.value)}
                 required
@@ -131,12 +148,10 @@ export default function RegisterPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Password
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-1.5">Password</label>
               <input
                 type="password"
-                className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-4 py-3 rounded-xl text-sm outline-none border border-gray-200 focus:border-rose-400 focus:ring-2 focus:ring-rose-100 transition-all bg-white"
                 value={password}
                 onChange={e => setPassword(e.target.value)}
                 required
@@ -148,33 +163,30 @@ export default function RegisterPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-blue-600 text-white py-2.5 rounded-lg font-semibold hover:bg-blue-700 transition-colors disabled:opacity-50"
+              className="w-full py-3 rounded-xl text-sm font-semibold text-white bg-rose-500 hover:bg-rose-600 transition-colors shadow-sm disabled:opacity-50 mt-2"
             >
               {loading ? 'Creating account...' : 'Create Account'}
             </button>
           </form>
 
-          <div className="relative my-5">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-200"></div>
-            </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-white text-gray-400">or continue with</span>
-            </div>
+          <div className="flex items-center gap-4 my-6">
+            <div className="flex-1 h-px bg-gray-200"></div>
+            <span className="text-xs text-gray-400">or</span>
+            <div className="flex-1 h-px bg-gray-200"></div>
           </div>
 
           <button
             onClick={handleGoogle}
-            className="w-full border border-gray-300 py-2.5 rounded-lg font-medium text-sm hover:bg-gray-50 transition-colors flex items-center justify-center gap-3"
+            className="w-full py-3 rounded-xl text-sm font-medium flex items-center justify-center gap-3 bg-white border border-gray-200 hover:bg-gray-50 transition-colors"
           >
             <img src="https://www.google.com/favicon.ico" className="w-4 h-4" />
             Register with Google
           </button>
 
-          <p className="text-center text-sm text-gray-500 mt-6">
+          <p className="text-center text-sm mt-8 text-gray-400">
             Already have an account?{' '}
-            <Link to="/login" className="text-blue-600 hover:underline font-medium">
-              Login here
+            <Link to="/login" className="font-semibold text-rose-500 hover:text-rose-600">
+              Sign in
             </Link>
           </p>
         </div>
