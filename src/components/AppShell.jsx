@@ -116,37 +116,47 @@ export default function AppShell({ children }) {
             onClick={handleLogout}
             className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium text-gray-500 hover:bg-rose-50 hover:text-rose-600 transition-all ${collapsed ? 'justify-center' : ''}`}
           >
-            <span className="flex-shrink-0">🚪</span>
-            {!collapsed && <span>Sign Out</span>}
+        
+            
           </button>
         </div>
       </aside>
 
-      {/* Top Navbar */}
-      <div
-        className="fixed top-0 right-0 z-40 flex items-center justify-between px-8 py-4 bg-white border-b border-gray-100"
-        style={{
-          left: collapsed ? '68px' : '240px',
-          transition: 'left 0.3s ease'
-        }}
-      >
-        <div>
-          <h2 className="text-sm font-semibold text-gray-900 capitalize">
-            {location.pathname.split('/')[1].replace('-', ' ') || 'Dashboard'}
-          </h2>
-          <p className="text-xs text-gray-400">
-            {new Date().toLocaleDateString('en-PH', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
-          </p>
-        </div>
-        <div className="flex items-center gap-3">
-          <div className="px-3 py-1.5 rounded-full text-xs font-medium bg-rose-50 text-rose-600 border border-rose-100">
-            {currentUser?.user_type || 'USER'}
-          </div>
-          <div className="w-8 h-8 rounded-full bg-rose-400 flex items-center justify-center text-white text-xs font-bold">
-            {(currentUser?.username || currentUser?.email || 'U')[0].toUpperCase()}
-          </div>
-        </div>
-      </div>
+     {/* Top Navbar */}
+<div
+  className="fixed top-0 right-0 z-40 flex items-center justify-between px-8 py-4 bg-white border-b border-gray-100"
+  style={{
+    left: collapsed ? '68px' : '240px',
+    transition: 'left 0.3s ease'
+  }}
+>
+  <div>
+    <h2 className="text-sm font-semibold text-gray-900 capitalize">
+      {location.pathname.split('/')[1].replace('-', ' ') || 'Dashboard'}
+    </h2>
+    <p className="text-xs text-gray-400">
+      {new Date().toLocaleDateString('en-PH', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+    </p>
+  </div>
+
+  <div className="flex items-center gap-3">
+    <div className="px-3 py-1.5 rounded-full text-xs font-medium bg-rose-50 text-rose-600 border border-rose-100">
+      {currentUser?.user_type || 'USER'}
+    </div>
+    <div className="w-8 h-8 rounded-full bg-rose-400 flex items-center justify-center text-white text-xs font-bold">
+      {(currentUser?.username || currentUser?.email || 'U')[0].toUpperCase()}
+    </div>
+    <span className="text-sm font-medium text-gray-700">
+      {currentUser?.username || currentUser?.email?.split('@')[0]}
+    </span>
+    <button
+      onClick={handleLogout}
+      className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-100 transition-colors"
+    >
+      <span>🚪</span> Sign Out
+    </button>
+  </div>
+</div>
 
       {/* MAIN CONTENT */}
       <main
