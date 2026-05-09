@@ -97,29 +97,7 @@ export default function AppShell({ children }) {
           )}
         </nav>
 
-        {/* User at bottom */}
-        <div className="border-t border-gray-100 p-3 space-y-1">
-          <div className={`flex items-center gap-3 px-2 py-2 rounded-xl overflow-hidden ${collapsed ? 'justify-center' : ''}`}>
-            <div className="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0 bg-rose-400">
-              {(currentUser?.username || currentUser?.email || 'U')[0].toUpperCase()}
-            </div>
-            {!collapsed && (
-              <div className="flex-1 overflow-hidden">
-                <p className="text-sm font-semibold text-gray-900 truncate">
-                  {currentUser?.username || currentUser?.email?.split('@')[0]}
-                </p>
-                <p className="text-xs text-gray-400 truncate">{currentUser?.user_type || 'USER'}</p>
-              </div>
-            )}
-          </div>
-          <button
-            onClick={handleLogout}
-            className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium text-gray-500 hover:bg-rose-50 hover:text-rose-600 transition-all ${collapsed ? 'justify-center' : ''}`}
-          >
-        
-            
-          </button>
-        </div>
+     
       </aside>
 
      {/* Top Navbar */}

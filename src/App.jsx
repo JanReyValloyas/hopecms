@@ -13,7 +13,7 @@ import CustomerDetailPage from './pages/CustomerDetailPage'
 import CustomerSalesSummaryPage from './pages/CustomerSalesSummaryPage'
 import TopCustomersPage from './pages/TopCustomersPage'
 import ProductRevenuePage from './pages/ProductRevenuePage'
-import DashboardPage from './pages/DashboardPage'
+
 
 function ProtectedRoute({ children }) {
   const { currentUser, loading } = useAuth()
@@ -34,12 +34,12 @@ function App() {
         <Route path="/products" element={<ProtectedRoute><ProductsPage /></ProtectedRoute>} />
         <Route path="/admin" element={<ProtectedRoute><AdminPage /></ProtectedRoute>} />
         <Route path="/deleted-customers" element={<ProtectedRoute><DeletedCustomersPage /></ProtectedRoute>} />
-        <Route path="*" element={<Navigate to="/dashboard" />} />
+       <Route path="*" element={<Navigate to="/customers" />} />
         <Route path="/customers/:custno" element={<ProtectedRoute><CustomerDetailPage /></ProtectedRoute>} />
         <Route path="/reports/sales-summary" element={<ProtectedRoute><CustomerSalesSummaryPage /></ProtectedRoute>} />
         <Route path="/reports/top-customers" element={<ProtectedRoute><TopCustomersPage /></ProtectedRoute>} />
         <Route path="/reports/product-revenue" element={<ProtectedRoute><ProductRevenuePage /></ProtectedRoute>} />
-        <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
+       
       </Routes>
     </BrowserRouter>
   )

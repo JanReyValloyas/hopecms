@@ -17,7 +17,7 @@ export default function LoginPage() {
       setError(error.message)
       setLoading(false)
     } else if (data?.user) {
-      window.location.href = '/dashboard'
+    window.location.href = '/customers'
     }
   }
 
