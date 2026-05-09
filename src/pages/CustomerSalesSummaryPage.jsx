@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react'
 import { getCustomerSalesSummary } from '../services/reportsService'
+import { useNavigate } from 'react-router-dom'
 
 export default function CustomerSalesSummaryPage() {
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
+  const navigate = useNavigate()
 
   useEffect(() => { loadData() }, [])
 
@@ -61,7 +63,11 @@ export default function CustomerSalesSummaryPage() {
               </thead>
               <tbody className="divide-y divide-gray-100">
                 {filtered.map((c) => (
-                  <tr key={c.custno} className="hover:bg-blue-50 transition-colors">
+                   <tr
+  key={c.custno}
+  className="border-b border-gray-50 hover:bg-rose-50/30 transition-colors cursor-pointer"
+  onClick={() => navigate(`/customers/${c.custno}`)}
+>
                     <td className="px-4 py-3 font-medium text-blue-600">{c.custno}</td>
                     <td className="px-4 py-3 font-medium text-gray-900">{c.custname}</td>
                     <td className="px-4 py-3">
