@@ -10,30 +10,18 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     supabase.auth.getSession().then(async ({ data: { session } }) => {
       if (session) {
-        // Try to load user data with timeout
-     async function loadUserRow(userId) {
-  try {
-    const { data, error } = await supabase
-      .from('user')
-      .select('userid, username, user_type, record_status')
-      .eq('userid', userId)
-      .maybeSingle()
-    if (error) return null
-    return data
-  } catch {
-    return null
-  }
-}
-
-        if (userRow) {
+        const userData = await loadUserRow(session.user.id)
+        if (userData && userData.record_status === 'ACTIVE') {
           setCurrentUser({
             ...session.user,
-            username: userRow.username,
-            user_type: userRow.user_type,
-            record_status: userRow.record_status
+            username: userData.username,
+            user_type: userData.user_type,
+            record_status: userData.record_status
           })
+        } else if (userData && userData.record_status === 'INACTIVE') {
+          await supabase.auth.signOut()
+          setCurrentUser(null)
         } else {
-          // Timeout — just use session user
           setCurrentUser(session.user)
         }
       }
@@ -54,11 +42,12 @@ export function AuthProvider({ children }) {
 
   async function loadUserRow(userId) {
     try {
-      const { data } = await supabase
+      const { data, error } = await supabase
         .from('user')
         .select('userid, username, user_type, record_status')
         .eq('userid', userId)
-        .single()
+        .maybeSingle()
+      if (error) return null
       return data
     } catch {
       return null
