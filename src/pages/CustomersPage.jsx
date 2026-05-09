@@ -4,6 +4,8 @@ import { useAuth } from '../context/AuthContext'
 import { useRights } from '../context/UserRightsContext'
 import { getCustomers, softDeleteCustomer } from '../services/customerService'
 import { supabase } from '../supabaseClient'
+import { Search, TrendingUp } from 'lucide-react'
+
 
 function Toggle({ checked, onChange }) {
   return (
@@ -122,7 +124,7 @@ export default function CustomersPage() {
               <tr>
                 <td colSpan="6" className="px-6 py-20 text-center">
                   <div className="flex flex-col items-center gap-3">
-                    <span className="text-5xl">🔍</span>
+                 <Search size={16} className="text-gray-400" />
                     <p className="text-gray-400 text-sm font-medium">No customers found</p>
                     <p className="text-gray-300 text-xs">Try adjusting your search</p>
                   </div>
