@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react'
 import { getProductRevenue } from '../services/reportsService'
+import { useNavigate } from 'react-router-dom'
 
 export default function ProductRevenuePage() {
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
+  const navigate = useNavigate()
 
   useEffect(() => { loadData() }, [])
 
@@ -61,7 +63,10 @@ export default function ProductRevenuePage() {
               </thead>
               <tbody className="divide-y divide-gray-100">
                 {filtered.map((p, i) => (
-                  <tr key={p.prodcode} className="hover:bg-green-50 transition-colors">
+                  <tr
+  key={p.prodcode}
+  className="border-b border-gray-50 hover:bg-rose-50/30 transition-colors"
+>
                     <td className="px-4 py-3 font-medium text-blue-600">{p.prodcode}</td>
                     <td className="px-4 py-3 text-gray-900">{p.description}</td>
                     <td className="px-4 py-3 text-gray-600">{p.unit}</td>
