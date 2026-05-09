@@ -45,12 +45,12 @@ export default function SalesPage() {
         </span>
       </div>
 
-      <div className="relative mb-4">
-        <Search size={16} className="text-gray-400" />
+      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 mb-4 p-4 flex items-center gap-3">
+       <Search size={16} className="text-gray-400" />
         <input
           type="text"
           placeholder="Search by transaction no, customer no, or employee..."
-          className="w-full border border-gray-300 rounded-lg pl-9 pr-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+          className="flex-1 text-sm outline-none text-gray-900 placeholder-gray-400"
           value={search}
           onChange={e => setSearch(e.target.value)}
         />
