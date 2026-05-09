@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { getProductRevenue } from '../services/reportsService'
 import { useNavigate } from 'react-router-dom'
+import { Search, TrendingUp } from 'lucide-react'
 
 export default function ProductRevenuePage() {
   const [data, setData] = useState([])
@@ -38,7 +39,7 @@ export default function ProductRevenuePage() {
       </div>
 
       <div className="relative mb-4">
-        <span className="absolute left-3 top-2.5 text-gray-400">🔍</span>
+        <Search size={16} className="text-gray-400" />
         <input type="text" placeholder="Search by product name or code..."
           className="w-full border border-gray-300 rounded-lg pl-9 pr-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
           value={search} onChange={e => setSearch(e.target.value)} />
