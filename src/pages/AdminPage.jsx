@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useRights } from '../context/UserRightsContext'
 import { supabase } from '../supabaseClient'
+import { Users, Shield, Lock } from 'lucide-react'
 
 export default function AdminPage() {
   const { currentUser } = useAuth()
@@ -67,7 +68,7 @@ export default function AdminPage() {
           </div>
         ) : users.length === 0 ? (
           <div className="text-center py-16">
-            <p className="text-4xl mb-3">👥</p>
+           <Users size={40} className="text-gray-300 mx-auto mb-3" />
             <p className="text-gray-400 text-sm">No users found</p>
           </div>
         ) : (
@@ -109,7 +110,9 @@ export default function AdminPage() {
                   </td>
                   <td className="px-6 py-4 text-right">
                     {u.user_type === 'SUPERADMIN' ? (
-                      <span className="text-xs text-gray-400 italic">🔒 Protected</span>
+                     <span className="flex items-center gap-1 text-xs text-gray-400 italic">
+  <Lock size={12} /> Protected
+</span>
                     ) : (
                       <div className="flex gap-2 justify-end">
                         {u.record_status === 'INACTIVE' && (

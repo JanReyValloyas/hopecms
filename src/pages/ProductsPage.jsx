@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { getProducts } from '../services/productService'
+import { Search, Package } from 'lucide-react'
 
 export default function ProductsPage() {
   const [products, setProducts] = useState([])
@@ -36,7 +37,7 @@ export default function ProductsPage() {
       </div>
 
       <div className="relative mb-4">
-        <span className="absolute left-3 top-2.5 text-gray-400">🔍</span>
+        <Search size={16} className="text-gray-400" />
         <input
           type="text"
           placeholder="Search by product name or code..."
@@ -52,7 +53,7 @@ export default function ProductsPage() {
         </div>
       ) : filtered.length === 0 ? (
         <div className="text-center py-20 bg-white rounded-xl shadow-sm">
-          <p className="text-4xl mb-3">📦</p>
+          <Package size={40} className="text-gray-300 mx-auto mb-3" />
           <p className="text-gray-500">No products found</p>
         </div>
       ) : (
