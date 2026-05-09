@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { getTopCustomers } from '../services/reportsService'
 import { useNavigate } from 'react-router-dom'
+import { Trophy, Medal } from 'lucide-react'
 
 export default function TopCustomersPage() {
   const [data, setData] = useState([])
@@ -22,7 +23,11 @@ export default function TopCustomersPage() {
   }
 
   const maxSpend = data.length > 0 ? Number(data[0].totalspend) : 1
-  const medals = ['🥇', '🥈', '🥉']
+  const medals = [
+  <Trophy size={20} className="text-yellow-400" />,
+  <Medal size={20} className="text-gray-400" />,
+  <Medal size={20} className="text-amber-600" />
+]
 
   return (
     <div>

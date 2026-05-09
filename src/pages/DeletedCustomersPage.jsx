@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { getCustomers, recoverCustomer } from '../services/customerService'
+import { Trash2, CheckCircle } from 'lucide-react'
 
 export default function DeletedCustomersPage() {
   const { currentUser } = useAuth()
@@ -56,7 +57,7 @@ export default function DeletedCustomersPage() {
         </div>
       ) : customers.length === 0 ? (
         <div className="text-center py-20 bg-white rounded-xl shadow-sm">
-          <p className="text-4xl mb-3">✅</p>
+         <CheckCircle size={40} className="text-gray-300 mx-auto mb-3" />
           <p className="text-gray-500">No deleted customers</p>
         </div>
       ) : (

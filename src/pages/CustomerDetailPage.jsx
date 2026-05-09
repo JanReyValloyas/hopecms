@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { supabase } from '../supabaseClient'
 import { getSalesByCustomer, getSalesDetail } from '../services/salesService'
+import { ArrowLeft, User, MousePointerClick } from 'lucide-react'
 
 export default function CustomerDetailPage() {
   const { custno } = useParams()
@@ -61,7 +62,7 @@ export default function CustomerDetailPage() {
         onClick={() => navigate('/customers')}
         className="mb-4 text-blue-600 hover:underline text-sm flex items-center gap-1"
       >
-        ← Back to Customers
+       <ArrowLeft size={16} />
       </button>
 
       {/* Customer Profile */}
@@ -69,7 +70,7 @@ export default function CustomerDetailPage() {
         <div className="flex items-start justify-between">
           <div className="flex items-center gap-4">
             <div className="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center text-2xl">
-              👤
+              <User size={24} className="text-blue-400" />
             </div>
             <div>
               <h1 className="text-xl font-bold text-gray-900">{customer.custname}</h1>
@@ -153,7 +154,7 @@ export default function CustomerDetailPage() {
           </div>
           {!selectedTrans ? (
             <div className="text-center py-10">
-              <p className="text-3xl mb-2">👆</p>
+              <MousePointerClick size={32} className="text-gray-300 mx-auto mb-2" />
               <p className="text-gray-400 text-sm">Click a transaction to see line items</p>
             </div>
           ) : detailLoading ? (
