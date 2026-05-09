@@ -49,14 +49,14 @@ export default function RegisterPage() {
             <div className="w-10 h-10 rounded-2xl bg-rose-500 flex items-center justify-center">
               <span className="text-white font-bold text-lg">H</span>
             </div>
-            <span className="font-bold text-gray-900 text-lg">HopeCMS</span>
+            <span className="font-bold text-gray-900 text-lg">Customer Management System</span>
           </div>
         </div>
 
         <div className="relative z-10">
           <h2 className="text-5xl font-bold text-gray-900 leading-tight mb-6">
             Join the<br />
-            <span className="text-rose-500">Hope, Inc.</span><br />
+            <span className="text-rose-500">Customer Management System</span><br />
             platform.
           </h2>
           <p className="text-gray-500 text-lg leading-relaxed max-w-sm">
@@ -79,7 +79,7 @@ export default function RegisterPage() {
             <div className="w-10 h-10 rounded-2xl bg-rose-500 flex items-center justify-center">
               <span className="text-white font-bold text-lg">H</span>
             </div>
-            <span className="font-bold text-gray-900 text-lg">HopeCMS</span>
+            <span className="font-bold text-gray-900 text-lg">Customer Management System</span>
           </div>
 
           <h2 className="text-3xl font-bold text-gray-900 mb-2">Create account</h2>
