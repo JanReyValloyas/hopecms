@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../supabaseClient'
+import { Search, ShoppingCart } from 'lucide-react'
 
 export default function SalesPage() {
   const [sales, setSales] = useState([])
@@ -45,7 +46,7 @@ export default function SalesPage() {
       </div>
 
       <div className="relative mb-4">
-        <span className="absolute left-3 top-2.5 text-gray-400">🔍</span>
+        <Search size={16} className="text-gray-400" />
         <input
           type="text"
           placeholder="Search by transaction no, customer no, or employee..."
@@ -61,7 +62,7 @@ export default function SalesPage() {
         </div>
       ) : filtered.length === 0 ? (
         <div className="text-center py-20 bg-white rounded-xl shadow-sm">
-          <p className="text-4xl mb-3">🧾</p>
+          <ShoppingCart size={40} className="text-gray-300 mx-auto mb-3" />
           <p className="text-gray-500">No sales found</p>
         </div>
       ) : (
