@@ -11,10 +11,19 @@ export function AuthProvider({ children }) {
     supabase.auth.getSession().then(async ({ data: { session } }) => {
       if (session) {
         // Try to load user data with timeout
-        const userRow = await Promise.race([
-          loadUserRow(session.user.id),
-          new Promise(resolve => setTimeout(() => resolve(null), 3000))
-        ])
+     async function loadUserRow(userId) {
+  try {
+    const { data, error } = await supabase
+      .from('user')
+      .select('userid, username, user_type, record_status')
+      .eq('userid', userId)
+      .maybeSingle()
+    if (error) return null
+    return data
+  } catch {
+    return null
+  }
+}
 
         if (userRow) {
           setCurrentUser({
