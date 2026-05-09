@@ -85,7 +85,7 @@ export default function CustomersPage() {
 
       {/* Search */}
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 mb-4 p-4 flex items-center gap-3">
-        <span className="text-gray-400 text-lg">🔍</span>
+       <Search size={16} className="text-gray-400" />
         <input
           type="text"
           placeholder="Search by name, ID, address or pay term..."
