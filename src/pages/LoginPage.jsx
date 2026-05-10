@@ -1,13 +1,28 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { supabase } from '../supabaseClient'
 import { Link } from 'react-router-dom'
 import { Mail, Lock, ArrowRight, Users } from 'lucide-react'
+ import { useSearchParams } from 'react-router-dom'
 
 export default function LoginPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+
+ 
+
+// Add inside the component:
+const [searchParams] = useSearchParams()
+
+useEffect(() => {
+  const err = searchParams.get('error')
+  if (err === 'inactive') {
+    setError('Your account is pending activation. Please contact your administrator.')
+  } else if (err === 'not_registered') {
+    setError('Your account is not registered in the system. Please contact your administrator.')
+  }
+}, [searchParams])
 
   async function handleLogin(e) {
     e.preventDefault()
