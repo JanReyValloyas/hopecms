@@ -60,12 +60,12 @@ export default function AppShell({ children }) {
         <div className="flex items-center justify-between px-4 py-5 border-b border-gray-100">
           <div className="flex items-center gap-3 overflow-hidden">
             <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 bg-rose-500">
-              <span className="text-white text-sm font-bold">H</span>
+              <span className="text-white text-sm font-bold">C</span>
             </div>
             {!collapsed && (
               <div>
-                <p className="font-bold text-gray-900 text-sm">HopeCMS</p>
-                <p className="text-xs text-gray-400">Management System</p>
+                <p className="font-bold text-gray-900 text-sm">Customer Management System</p>
+               
               </div>
             )}
           </div>
