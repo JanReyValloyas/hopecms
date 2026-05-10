@@ -7,6 +7,7 @@ vi.mock('../supabaseClient', () => ({
       signInWithPassword: vi.fn(),
       signUp: vi.fn(),
       signOut: vi.fn(),
+      signInWithOAuth: vi.fn(), // <--- ADD THIS LINE
       onAuthStateChange: vi.fn(() => ({
         data: { subscription: { unsubscribe: vi.fn() } }
       })),
@@ -131,7 +132,22 @@ describe('Sprint 1 - Auth Flows', () => {
     expect(data.user_type).toBe('SUPERADMIN')
   })
 
-  // TEST 6: Sign out
+    // TEST 6: Google OAuth new user flow
+  it('should initiate Google OAuth sign-in', async () => {
+    supabase.auth.signInWithOAuth.mockResolvedValueOnce({
+      data: { provider: 'google', url: 'https://accounts.google.com/o/oauth2/v2/auth' },
+      error: null
+    })
+
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: 'google'
+    })
+
+    expect(error).toBeNull()
+    expect(data.provider).toBe('google')
+  })
+
+  // TEST 7: Sign out
   it('should sign out successfully', async () => {
     supabase.auth.signOut.mockResolvedValueOnce({ error: null })
 
