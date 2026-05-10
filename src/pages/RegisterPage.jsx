@@ -47,7 +47,7 @@ export default function RegisterPage() {
         <div className="relative z-10">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-2xl bg-rose-500 flex items-center justify-center">
-              <span className="text-white font-bold text-lg">H</span>
+              <span className="text-white font-bold text-lg">C</span>
             </div>
             <span className="font-bold text-gray-900 text-lg">Customer Management System</span>
           </div>
@@ -77,7 +77,7 @@ export default function RegisterPage() {
 
           <div className="lg:hidden flex items-center gap-3 mb-10">
             <div className="w-10 h-10 rounded-2xl bg-rose-500 flex items-center justify-center">
-              <span className="text-white font-bold text-lg">H</span>
+              <span className="text-white font-bold text-lg">C</span>
             </div>
             <span className="font-bold text-gray-900 text-lg">Customer Management System</span>
           </div>
