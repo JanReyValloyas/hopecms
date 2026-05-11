@@ -1,3 +1,5 @@
+// M5-PR-01: Email + Google OAuth + login guard test cases
+
 import { describe, it, expect, vi } from 'vitest'
 
 // Mock Supabase
