@@ -110,9 +110,10 @@ export default function AdminPage() {
                   </td>
                   <td className="px-6 py-4 text-right">
                     {u.user_type === 'SUPERADMIN' ? (
-                     <span className="flex items-center gap-1 text-xs text-gray-400 italic">
-  <Lock size={12} /> Protected
-</span>
+                     <span className="inline-flex items-center gap-1 px-4 py-1.5 text-xs text-gray-400 italic font-medium">
+                     <Lock size={12} /> 
+                      Protected
+                     </span>
                     ) : (
                       <div className="flex gap-2 justify-end">
                         {u.record_status === 'INACTIVE' && (
