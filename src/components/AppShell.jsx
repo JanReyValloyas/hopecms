@@ -20,62 +20,65 @@ export default function AppShell({ children }) {
     navigate('/login')
   }
 
-  const NavLink = ({ to, icon: Icon, label }) => {
-    const active = location.pathname === to || location.pathname.startsWith(to + '/')
-    return (
-      <Link to={to}
-        title={collapsed ? label : ''}
-        className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all group ${
-          active
-            ? 'bg-rose-50 text-rose-600'
-            : 'text-gray-500 hover:bg-gray-100 hover:text-gray-800'
-        }`}
-      >
-        <Icon size={18} className="flex-shrink-0" />
-        {!collapsed && <span className="truncate">{label}</span>}
-        {active && !collapsed && (
-          <span className="ml-auto w-1.5 h-1.5 rounded-full bg-rose-500 flex-shrink-0"></span>
-        )}
-      </Link>
-    )
-  }
+ const NavLink = ({ to, icon: Icon, label }) => {
+  const active = location.pathname === to || location.pathname.startsWith(to + '/')
+  return (
+    <Link to={to}
+      title={collapsed ? label : ''}
+      className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all group ${
+        active
+          ? 'bg-blue-600 text-white'
+          : 'text-slate-400 hover:bg-slate-800 hover:text-white'
+      }`}
+    >
+      <Icon size={18} className="flex-shrink-0" />
+      {!collapsed && <span className="truncate">{label}</span>}
+      {active && !collapsed && (
+        <span className="ml-auto w-1.5 h-1.5 rounded-full bg-white flex-shrink-0"></span>
+      )}
+    </Link>
+  )
+}
 
-  const SectionLabel = ({ label }) => !collapsed ? (
-    <p className="text-xs font-semibold px-3 mt-6 mb-2 uppercase tracking-widest text-gray-400">
-      {label}
-    </p>
-  ) : <div className="h-px bg-gray-100 mx-3 my-3"></div>
+const SectionLabel = ({ label }) => !collapsed ? (
+  <p className="text-xs font-semibold px-3 mt-6 mb-2 uppercase tracking-widest text-slate-500">
+    {label}
+  </p>
+) : <div className="h-px bg-slate-700 mx-3 my-3"></div>
 
   return (
     <div className="min-h-screen flex bg-gray-50">
       {/* SIDEBAR */}
       <aside
-        className="fixed left-0 top-0 bottom-0 flex flex-col bg-white border-r border-gray-100 z-50"
-        style={{
-          width: collapsed ? '68px' : '240px',
-          transition: 'width 0.3s ease',
-        }}
+       className="fixed left-0 top-0 bottom-0 flex flex-col z-50"
+style={{
+  width: collapsed ? '68px' : '240px',
+  transition: 'width 0.3s ease',
+  background: '#0f172a',
+  borderRight: '1px solid #1e293b'
+}}
       >
-        {/* Logo */}
-        <div className="flex items-center justify-between px-4 py-5 border-b border-gray-100">
-          <div className="flex items-center gap-3 overflow-hidden">
-            <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 bg-rose-500">
-              <span className="text-white text-sm font-bold">C</span>
-            </div>
-            {!collapsed && (
-              <div>
-                <p className="font-bold text-gray-900 text-sm">Customer Management System</p>
-               
-              </div>
-            )}
-          </div>
-          <button
-            onClick={() => setCollapsed(!collapsed)}
-            className="text-gray-400 hover:text-gray-600 transition-colors flex-shrink-0 w-6 h-6 flex items-center justify-center rounded-lg hover:bg-gray-100"
-          >
-            {collapsed ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
-          </button>
-        </div>
+      {/* Logo */}
+<div className="flex items-center justify-between px-4 py-5 border-b border-slate-700">
+  <div className="flex items-center gap-3 overflow-hidden">
+    <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
+      style={{background: 'linear-gradient(135deg, #1d4ed8, #3b82f6)'}}>
+      <span className="text-white text-sm font-bold">H</span>
+    </div>
+    {!collapsed && (
+      <div>
+        <p className="font-bold text-white text-sm">Hope, Inc.</p>
+        <p className="text-xs text-slate-400">Customer Management System</p>
+      </div>
+    )}
+  </div>
+  <button
+    onClick={() => setCollapsed(!collapsed)}
+    className="text-slate-400 hover:text-white transition-colors flex-shrink-0 w-6 h-6 flex items-center justify-center rounded-lg hover:bg-slate-700"
+  >
+    {collapsed ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
+  </button>
+</div>
 
         {/* Navigation */}
         <nav className="flex-1 px-2 py-3 overflow-y-auto overflow-x-hidden space-y-0.5">
@@ -132,12 +135,12 @@ export default function AppShell({ children }) {
             {currentUser?.username || currentUser?.email?.split('@')[0]}
           </span>
           <button
-            onClick={handleLogout}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-100 transition-colors"
-          >
-            <LogOut size={14} />
-            {!collapsed && <span>Sign Out</span>}
-          </button>
+  onClick={handleLogout}
+  className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium text-slate-400 hover:bg-red-500 hover:text-white transition-all ${collapsed ? 'justify-center' : ''}`}
+>
+  <LogOut size={16} className="flex-shrink-0" />
+  {!collapsed && <span>Sign Out</span>}
+</button>
         </div>
       </div>
 
