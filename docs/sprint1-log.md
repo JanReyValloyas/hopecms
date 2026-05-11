@@ -56,3 +56,10 @@ Project setup, full CMS database, Email + Google OAuth, login guard.
 - Build Sales and Products view-only pages
 - Set up RLS policies in Supabase
 - Build Deleted Customers panel
+
+## PR Summary
+- M1: 4 PRs merged
+- M2: 4 PRs merged
+- M3: 4 PRs merged
+- M4: 4 PRs merged
+- M5: 2 PRs merged
