@@ -84,10 +84,7 @@ export default function AppShell({ children }) {
           {rights.SALES_VIEW === 1 && <NavLink to="/sales" icon={ShoppingCart} label="Sales" />}
           {rights.PROD_VIEW === 1 && <NavLink to="/products" icon={Package} label="Products" />}
 
-          <SectionLabel label="Reports" />
-          {rights.SALES_VIEW === 1 && <NavLink to="/reports/sales-summary" icon={BarChart2} label="Sales Summary" />}
-          {rights.SALES_VIEW === 1 && <NavLink to="/reports/top-customers" icon={Trophy} label="Top Customers" />}
-          {rights.PROD_VIEW === 1 && <NavLink to="/reports/product-revenue" icon={TrendingUp} label="Product Revenue" />}
+        
 
           {rights.ADM_USER === 1 && (
             <>
