@@ -36,3 +36,14 @@ Admin Module, Reports, Deployment & Final Documentation
 |---------|------------|
 | Report pages force logout | Fixed by granting SELECT on views |
 | RLS blocking updates | Fixed with combined USING + WITH CHECK policies |
+
+## Sprint 3 PR Summary
+- M1: 2 PRs merged
+- M2: 1 PR merged
+- M3: 1 PR merged
+- M5: 2 PRs merged
+
+## Deployment
+- Platform: Vercel
+- URL: https://hopecms-589r.vercel.app
+- Status: Live ✅
