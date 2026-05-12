@@ -47,3 +47,10 @@ Customer CRUD, Sales Views & Rights Enforcement
 - Deploy to Vercel/Netlify
 - Final documentation
 - 12-slide presentation
+
+## Sprint 2 PR Summary
+- M1: 4 PRs merged
+- M2: 5 PRs merged
+- M3: 4 PRs merged
+- M4: 3 PRs merged
+- M5: 2 PRs merged
