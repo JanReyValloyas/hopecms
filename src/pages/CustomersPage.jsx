@@ -1,3 +1,5 @@
+// M2-PR-01: CustomerListPage with stamp gating + soft-delete filter
+
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
