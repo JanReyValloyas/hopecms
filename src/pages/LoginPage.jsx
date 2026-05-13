@@ -1,3 +1,5 @@
+// M2-PR-01: Login form with email + Google OAuth button
+
 import { useState, useEffect } from 'react'
 import { supabase } from '../supabaseClient'
 import { Link, useSearchParams } from 'react-router-dom'
