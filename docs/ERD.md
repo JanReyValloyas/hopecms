@@ -1,17 +1,18 @@
 # HopeCMS Entity Relationship Diagram
 
-## Table Relationships
-## Tables Summary
+## Visual Entity Relationship Diagram
+*(Note: GitHub and VS Code with Markdown preview will render this automatically as a diagram)*
 
-| Table | Type | Records |
-|-------|------|---------|
-| customer | CRUD | 82 rows |
-| sales | View Only | 124 rows |
-| salesDetail | View Only | ~250 rows |
-| product | View Only | 52 rows |
-| priceHist | View Only | ~70 rows |
-| user | Auth | - |
-| Module | Seed | 4 rows |
-| rights | Seed | 9 rows |
-| user_module | Auth | - |
-| UserModule_Rights | Auth | - |
+```mermaid
+erDiagram
+    %% Core Sales System
+    CUSTOMER ||--o{ SALES : "places"
+    SALES ||--|{ SALES_DETAIL : "contains line items"
+    PRODUCT ||--o{ SALES_DETAIL : "included in"
+    PRODUCT ||--o{ PRICE_HIST : "tracks history"
+
+    %% User & Authorization System
+    USER ||--o{ USER_MODULE : "assigned to"
+    MODULE ||--o{ USER_MODULE : "has access"
+    USER_MODULE ||--o{ USERMODULE_RIGHTS : "granted"
+    RIGHTS ||--o{ USERMODULE_RIGHTS : "defines access level"
