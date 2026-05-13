@@ -130,7 +130,7 @@ export default function CustomersPage() {
                   </div>
                 </td>
               </tr>
-            ) : paginated.map((c) => (
+            ) : paginated.map((c, index) => (
               <tr key={c.custno} className="border-b border-gray-50 hover:bg-rose-50/30 transition-colors group">
                 <td className="px-6 py-4">
                   <div className="flex items-center gap-3">
@@ -181,7 +181,7 @@ export default function CustomersPage() {
                       •••
                     </button>
                     {openMenuId === c.custno && (
-                      <div className="absolute right-0 top-10 bg-white rounded-xl shadow-lg border border-gray-100 py-1.5 z-20 w-44">
+                    <div className={`absolute right-0 ${index >= paginated.length - 2 ? 'bottom-10' : 'top-10'} bg-white rounded-xl shadow-lg border border-gray-100 py-1.5 z-20 w-44`}>
                         <button
                           onClick={() => { navigate(`/customers/${c.custno}`); setOpenMenuId(null) }}
                           className="w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 text-left flex items-center gap-2"
