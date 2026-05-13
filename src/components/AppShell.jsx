@@ -86,7 +86,8 @@ style={{
           {rights.CUST_VIEW === 1 && <NavLink to="/customers" icon={Users} label="Customers" />}
           {rights.SALES_VIEW === 1 && <NavLink to="/sales" icon={ShoppingCart} label="Sales" />}
           {rights.PROD_VIEW === 1 && <NavLink to="/products" icon={Package} label="Products" />}
-
+           <SectionLabel label="Reports" />
+           <NavLink to="/customer-sales-summary" icon={BarChart2} label="Sales Summary" />
         
 
           {rights.ADM_USER === 1 && (
