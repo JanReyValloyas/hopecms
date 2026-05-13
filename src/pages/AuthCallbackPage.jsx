@@ -1,3 +1,5 @@
+// M2-PR-04: Auth callback loading page with login guard
+
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '../supabaseClient'
