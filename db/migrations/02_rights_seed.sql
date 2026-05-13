@@ -1,3 +1,4 @@
+-- M3-PR-02: 4 modules + 9 rights + SUPERADMIN seed
 -- Rights Seed Data
 -- Sprint 1 | M3 DB Engineer
 
