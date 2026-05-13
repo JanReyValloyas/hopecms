@@ -1,3 +1,5 @@
+// M2-PR-02: Registration form with validation
+
 import { useState } from 'react'
 import { supabase } from '../supabaseClient'
 import { Link } from 'react-router-dom'
