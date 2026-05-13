@@ -1,3 +1,4 @@
+// M1-PR-03: All CMS routes + ProtectedRoute
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
