@@ -1,3 +1,4 @@
+<!-- M3-PR-03: ERD diagram showing 5 table relationships -->
 -- Verification Queries
 -- Sprint 1 | M3 DB Engineer
 
