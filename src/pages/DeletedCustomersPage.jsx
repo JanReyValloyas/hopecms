@@ -1,3 +1,4 @@
+// M1-PR-04: /deleted-customers blocked for USER
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
