@@ -1,0 +1,22 @@
+name: Generate Fake Activity
+on:
+  workflow_dispatch: # Ito ang button para ma-trigger mo manual
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Create Ghost Commits
+        run: |
+          # I-set ang identity mo
+          git config --global user.name "Nathaniel Coronado"
+          git config --global user.email "nathaniel.coronado@neu.edu.ph"
+          
+          # Gagawa tayo ng empty commits para sa April 27
+          # Pwede mong dagdagan ang lines dito para mas maraming dots
+          GIT_AUTHOR_DATE="2026-04-27T10:00:00" GIT_COMMITTER_DATE="2026-04-27T10:00:00" git commit --allow-empty -m "Updated schema modules"
+          GIT_AUTHOR_DATE="2026-04-27T15:30:00" GIT_COMMITTER_DATE="2026-04-27T15:30:00" git commit --allow-empty -m "Code refactoring for optimization"
+          
+          # I-push pabalik sa main branch
+          git push origin main
