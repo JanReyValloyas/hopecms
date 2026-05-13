@@ -1,3 +1,5 @@
+// M1-PR-02: Supabase JS client initialization + .env config
+
 import { createClient } from '@supabase/supabase-js'
 
 const supabaseUrl = 'https://ppkirkjhpatmvbwdqebi.supabase.co'
