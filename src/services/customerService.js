@@ -1,3 +1,4 @@
+// M1-PR-01: getCustomers, addCustomer, updateCustomer, softDelete, recover
 import { supabase } from '../supabaseClient'
 
 // Get all customers
