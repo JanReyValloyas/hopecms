@@ -1,3 +1,5 @@
+-- M3-PR-01: HopeDB 5 tables + record_status/stamp on customer only
+
 -- HopeDB Initial Schema
 -- Sprint 1 | M3 DB Engineer
 
