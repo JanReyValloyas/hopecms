@@ -1,3 +1,5 @@
+// M2-PR-04: Read-only ProductCataloguePage
+
 import { useEffect, useState } from 'react'
 import { getProducts } from '../services/productService'
 import { Search, Package } from 'lucide-react'
