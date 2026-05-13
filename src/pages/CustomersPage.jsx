@@ -183,7 +183,7 @@ export default function CustomersPage() {
                     >
                       •••
                     </button>
-                    {openMenuId === c.custno && (
+                    {openMenuId === c.custno && ( 
                     <div className={`absolute right-0 ${index >= paginated.length - 2 ? 'bottom-10' : 'top-10'} bg-white rounded-xl shadow-lg border border-gray-100 py-1.5 z-20 w-44`}>
                         <button
                           onClick={() => { navigate(`/customers/${c.custno}`); setOpenMenuId(null) }}

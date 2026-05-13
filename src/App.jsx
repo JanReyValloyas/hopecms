@@ -11,6 +11,7 @@ import AuthCallbackPage from './pages/AuthCallbackPage'
 import AppShell from './components/AppShell'
 import { useAuth } from './context/AuthContext'
 import CustomerDetailPage from './pages/CustomerDetailPage'
+import CustomerSalesSummaryPage from './pages/CustomerSalesSummaryPage'
 
 
 
@@ -25,18 +26,22 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+        {/* Public Routes */}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/auth/callback" element={<AuthCallbackPage />} />
+        
+        {/* Protected Routes (May Sidebar) */}
         <Route path="/customers" element={<ProtectedRoute><CustomersPage /></ProtectedRoute>} />
         <Route path="/sales" element={<ProtectedRoute><SalesPage /></ProtectedRoute>} />
+        <Route path="/customer-sales-summary" element={<ProtectedRoute><CustomerSalesSummaryPage /></ProtectedRoute>} />
         <Route path="/products" element={<ProtectedRoute><ProductsPage /></ProtectedRoute>} />
         <Route path="/admin" element={<ProtectedRoute><AdminPage /></ProtectedRoute>} />
         <Route path="/deleted-customers" element={<ProtectedRoute><DeletedCustomersPage /></ProtectedRoute>} />
-       <Route path="*" element={<Navigate to="/customers" />} />
         <Route path="/customers/:custno" element={<ProtectedRoute><CustomerDetailPage /></ProtectedRoute>} />
         
-       
+        {/* Catch-all route (Kahit anong maling link, ibabalik sa customers) */}
+        <Route path="*" element={<Navigate to="/customers" />} />
       </Routes>
     </BrowserRouter>
   )
