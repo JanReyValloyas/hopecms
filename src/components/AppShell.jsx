@@ -1,3 +1,5 @@
+// M2-PR-03: Navbar, CMS sidebar, layout wrapper
+
 import { useState } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
