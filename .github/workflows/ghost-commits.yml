@@ -1,0 +1,23 @@
+name: Fill Contribution Graph
+on:
+  workflow_dispatch:
+
+jobs:
+  contribute:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Create Activity
+        run: |
+          git config --global user.name "Nathaniel Coronado"
+          git config --global user.email "nathaniel.coronado@neu.edu.ph"
+
+          # Loop para lagyan ng dots ang April 20 hanggang April 30
+          for d in {27..30}; do
+            # Gagawa ng empty commit para sa bawat araw
+            GIT_AUTHOR_DATE="2026-04-${d}T12:00:00" GIT_COMMITTER_DATE="2026-04-${d}T12:00:00" git commit --allow-empty -m "Contribution for April ${d}"
+          done
+
+          git push origin main
