@@ -1,0 +1,5 @@
+sql-- M3-PR-01: RLS SELECT/INSERT/UPDATE policies for customer table
+-- SELECT: USER sees ACTIVE only, ADMIN/SUPERADMIN see all
+-- INSERT: CUST_ADD = 1
+-- UPDATE: CUST_EDIT = 1 or CUST_DEL = 1
+ALTER TABLE customer ENABLE ROW LEVEL SECURITY;
