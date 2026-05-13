@@ -1,3 +1,5 @@
+// M2-PR-03: CustomerDetailPage + SalesHistoryPanel + SalesDetailModal
+
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { supabase } from '../supabaseClient'
