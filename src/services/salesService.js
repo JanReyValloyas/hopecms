@@ -1,3 +1,5 @@
+// M1-PR-02: Read-only service functions for sales, salesDetail, product, priceHist
+
 import { supabase } from '../supabaseClient'
 
 // Get sales by customer
