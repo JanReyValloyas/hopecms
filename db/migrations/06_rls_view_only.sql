@@ -1,0 +1,6 @@
+sql-- M3-PR-02: SELECT-only RLS for sales, salesDetail, product, priceHist
+-- NO INSERT, UPDATE, or DELETE policies for these tables
+ALTER TABLE sales ENABLE ROW LEVEL SECURITY;
+ALTER TABLE salesdetail ENABLE ROW LEVEL SECURITY;
+ALTER TABLE product ENABLE ROW LEVEL SECURITY;
+ALTER TABLE pricehist ENABLE ROW LEVEL SECURITY;
