@@ -1,3 +1,4 @@
+// M2-PR-05: DeletedCustomersPage + sidebar link gating
 // M1-PR-04: /deleted-customers blocked for USER
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
