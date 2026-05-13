@@ -1,4 +1,8 @@
 {
+  "_comment": "Sprint 3: Vercel deployment config for SPA routing",
+  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+}
+{
   "rewrites": [
     {
       "source": "/(.*)",
