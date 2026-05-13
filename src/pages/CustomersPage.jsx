@@ -1,3 +1,4 @@
+// M2-PR-02: AddCustomerModal + EditCustomerModal + SoftDeleteConfirmDialog
 // M2-PR-01: CustomerListPage with stamp gating + soft-delete filter
 
 import { useEffect, useState } from 'react'
