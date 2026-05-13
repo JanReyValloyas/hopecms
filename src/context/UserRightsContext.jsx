@@ -1,3 +1,5 @@
+// M1-PR-03: UserRightsContext wired at app root
+
 import { createContext, useContext, useEffect, useState } from 'react'
 import { supabase } from '../supabaseClient'
 import { useAuth } from './AuthContext'
